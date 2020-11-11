@@ -1,0 +1,20 @@
+CREATE DATABASE Morelia;
+CREATE DATABASE Patzcuaro;
+USE Morelia; 
+CREATE TABLE Clientes (Id CHAR(6) PRIMARY KEY, 
+    Nombre VARCHAR(50) NOT NULL, 
+    ApellidoP VARCHAR(40) NOT NULL, 
+    ApellidoM VARCHAR(40) NOT NULL, 
+    RFC VARCHAR(13) NOT NULL);
+
+
+CREATE TABLE Direcciones(Id char(6) PRIMARY KEY, 
+    Calle VARCHAR(30) NOT NULL, 
+    Colonia VARCHAR(30) NOT NULL, 
+    Estado CHAR(4) NOT NULL, 
+    CP CHAR(5) NOT NULL, 
+    idCliente CHAR(6),
+    FOREIGN KEY (idCliente) REFERENCES Clientes(Id));
+
+
+- En el caso de Pátzcuaro es exactamente lo mismo 
