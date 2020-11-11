@@ -9,6 +9,16 @@ import mysql.connector
 from mysql.connector import errorcode
 import json 
 
+"""
+Algunas líneas que nos van a servir
+cursos.execute("SHOW DATABASES")
+mybds = cursor.fetchall() #obtener las bds de mi mysql
+
+cursor.execute(f"USE {bd}") #usar una base de datos
+cursor.execute("SHOW TABLES") #mostrar tablas
+tables = cursor.fetchall()
+"""
+
 # Carga de las credenciales
 with open("credencialesBD.json") as file:
     credentials = json.load(file)
