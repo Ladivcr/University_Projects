@@ -20,60 +20,23 @@ cursor.execute(f"USE {bd}") #usar una base de datos
 cursor.execute("SHOW TABLES") #mostrar tablas
 tables = cursor.fetchall()
 """
-try:
-    print("Elige un número")
-    opt = int(input("\n1) Morelia\n2) Pátzcuaro\n"))
-except:
-    print("Debes introducir un número para identificarte...")
-
-# Morelia
-if opt == 1:
-    # Carga de las credenciales
-    with open("credentialsDBMorelia.json") as file:
-        credentials = json.load(file)
-
-    # Seleccionamos las credenciales
-
-    user = credentials["credentials"][0]["user"]
-    password = credentials["credentials"][0]["password"]
-    host = credentials["credentials"][0]["host"]
-    nameDB = credentials["credentials"][0]["database"]
-
-    # Hacemos la conexión
+status = True
+while status:
     try:
-        cnx = mysql.connector.connect(user=user,
-                password=password,
-                host=host,
-                database=nameDB)
-
-        print("\t¡Conexión a BDMorelia exitosa!")
-        cnx.close()
+        print("Elige un número")
+        opt = int(input("\n1) Morelia\n2) Pátzcuaro\n3) Salir\n"))
     except:
-        print("La conexión a BDMorelia fallo...")
+        print("Debes introducir un número para identificarte...")
 
-
-
-# Pátzcuaro
-elif opt == 2:
-    # Carga de las credenciales
-    with open("credentialsDBPatzcuaro.json") as file:
-        credentials = json.load(file)
-
-    # Seleccionamos las credenciales
-
-    user = credentials["credentials"][0]["user"]
-    password = credentials["credentials"][0]["password"]
-    host = credentials["credentials"][0]["host"]
-    nameDB = credentials["credentials"][0]["database"]
-
-    # Hacemos la conexión
-    try:
-        cnx = mysql.connector.connect(user=user,
-                password=password,
-                host=host,
-                database=nameDB)
-
-        print("\t¡Conexión a BDPátzcuaro exitosa!")
-        cnx.close()
-    except:
-        print("La conexión a BDPátzcuaro fallo...")
+    # Morelia
+    if opt == 1:
+        print(functions.conexionMorelia())
+    # Pátzcuaro
+    elif opt == 2:
+        print(functions.conexionPatzcuaro())
+    # Salir
+    elif opt == 3:
+        print("Hasta luego...")
+        status = False
+    else:
+        print("Esa opción no existe")
