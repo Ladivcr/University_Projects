@@ -58,22 +58,27 @@ def conexionPatzcuaro():
         return("La conexión a BDPátzcuaro fallo...")
 
 
+def TP():
+    """
+    Procesador de transacciones (TP)
+    - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
+    - Es un componente de software
+    - Se debe encontrar en cada computadora o equipo que pida datos
+    - También se conoce como procesador de aplicaciones o administrador
+    de transacciones
+    """
+    pass
+def DP():
+    """
+    Procesador de datos (DP)
+    Guarda y recupera datos localizados en el sitio
+    - Es un componente de software que reside en cada computadora
+    o equipo
+    - Puede que sea un dbms local
+    """
+    pass
 
 """
-#El procesador de transacciones (TP)
-- Recibe y procesa las solicitudes de datos de la aplicación
-(remota y local)
-- Es un componente de software
-- Se debe encontrar en cada computadora o equipo que pida datos
-- También se conoce como procesador de aplicaciones o administrador
-de transacciones
-
-#El procesador de datos (DP)
-Guarda y recupera datos localizados en el sitio
-- Es un componente de software que reside en cada computadora
-o equipo
-- Puede que sea un dbms local
-
 #Componentes de un DDBMS TP y DP
 - La comunicación entre los TP y los DP
 es posible mediante protocolos, usados por el DDBMS
