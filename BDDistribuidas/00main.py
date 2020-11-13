@@ -4,39 +4,83 @@
 @uthor: José Vidal Cardona Rosas & Gustavo Alfredo Zarate Acosta
 About: Tablas distribuidas
 """
-##################ARCHIVO MENU#################################
-
-import mysql.connector
-from mysql.connector import errorcode
-import json
 import functions
-
-"""
-Algunas líneas que nos van a servir
-cursos.execute("SHOW DATABASES")
-mybds = cursor.fetchall() #obtener las bds de mi mysql
-
-cursor.execute(f"USE {bd}") #usar una base de datos
-cursor.execute("SHOW TABLES") #mostrar tablas
-tables = cursor.fetchall()
-"""
-status = True
-while status:
+##################ARCHIVO MENU#################################
+def acciones():
+    print("\t¿Qué deseas hacer?")
+    print("1) Registras nuevo cliente\n2) Registrar nueva dirección")
+    print("3) Actualizar cliente\n4) Actualizar dirección")
+    print("5) Buscar cliente\n6) Listar clientes\n7) Listar clientes totales")
     try:
-        print("Elige un número")
+        option = int(input("\nIntroduce un número: "))
+        if option < 1 or option > 7:
+            print("La opción no existe\n")
+        else:
+            return(option)
+    except:
+        print("Te he pedido un número")
+
+
+programa = True
+while programa:
+    try:
+        #ELECCION DE UBICACIÓN POR PARTE DEL USUARIO
+        print("Elige tu ubicación introduciendo un número")
         opt = int(input("\n1) Morelia\n2) Pátzcuaro\n3) Salir\n"))
     except:
         print("Debes introducir un número para identificarte...")
 
-    # Morelia
+    # CONEXION A Morelia DADA LA UBICACION ELEGIDA
     if opt == 1:
-        print(functions.conexionMorelia())
-    # Pátzcuaro
+        status = functions.conexionMorelia()
+        if status == True:
+            opcion = acciones()
+            
+            #1) Registras nuevo cliente
+            if opcion == 1:
+                status = add_client()
+
+            #2) Registrar nueva dirección
+            elif opcion == 2:
+                status = add_address()
+
+            #3) Actualizar cliente
+            elif option == 3:
+                status = update_client()
+
+            #4) Actualizar dirección
+            elif opcion == 4:
+                status = update_address()
+
+            #5) Buscar cliente
+            elif opcion == 5:
+                result = search_client()
+
+            #6) Listar clientes
+            elif opcion == 6:
+                result = list_clients()
+
+            #7) Listar clientes totales
+            elif option == 7:
+                result = list_total_clients()
+
+        elif status == False:
+            print("Algo fallo en la conexión a Morelia, contacta al admin.")
+
+
+
+    # CONEXION A Pátzcuaro DADA LA UBICACION ELEGIDA
     elif opt == 2:
-        print(functions.conexionPatzcuaro())
+        status = functions.conexionPatzcuaro()
+        if status == True:
+            opcion = acciones()
+        elif status == False:
+            print("Algo fallo en la conexión a Pátzcuaro, contacta al admin.")
+
+
     # Salir
     elif opt == 3:
         print("Hasta luego...")
-        status = False
+        programa = False
     else:
         print("Esa opción no existe")

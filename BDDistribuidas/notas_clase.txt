@@ -5,7 +5,7 @@
 Correo del profesor: sistemas.udir@enesmorelia.unam.mx
 
 MOOC en google, todos los cursos de Coursera están disponibles
-por ser de la UNAM. 
+por ser de la UNAM.
 
 #######Objetivo General de la Asignatura
     - Aplicar los principios de la tecnología de las BD
@@ -13,13 +13,13 @@ distribuidas y realizar su diseño, manipulación y
 administración.
 
 #######Bibliografía
-Sistemas de bases de datos: Un enfoque práctico 
-para diseño, implementación y gestión 
+Sistemas de bases de datos: Un enfoque práctico
+para diseño, implementación y gestión
 Connolly T. y Begg, C. (2005)
 
 Date, C. (2001) Introducción a los sistemas de base de datos
 
-Fundamentos de Bases de Datos, Silberschatz, A.; Henry, F. 
+Fundamentos de Bases de Datos, Silberschatz, A.; Henry, F.
 y Sudarshan, S. (2002) (4a ed.)
 
 Rob, P. y Coronel, C (2004) Sistemas de bases de datos
@@ -27,9 +27,9 @@ México: Thomson
 
 Ceri, E. y Pelagatt, G. (1985).
 Distributed databases (principles & systems). New York:
-Mc Graw Hill 
+Mc Graw Hill
 
-#######FECHAS DE EXÁMENES 
+#######FECHAS DE EXÁMENES
 23 de Noviembre 2020
 4 de Febrero de 2020
 
@@ -44,9 +44,9 @@ se conectan con bases de datos más grandes?
 
 #########28/09/2020############
 #######Tarea
-- En equipos de 3 personas 
+- En equipos de 3 personas
 Jamboard o www.wordclouds.com
-- Crear una nube de palabras 
+- Crear una nube de palabras
 - Explicar dicha nube
 
 - ¿Qué es un sistema?
@@ -54,34 +54,34 @@ Jamboard o www.wordclouds.com
 de estructuras diversas interactuantes y especializadas.
 
 -Teoría general de sistemas Ludwig Von Bertalanffly
-"Hay un conjunto de unidades ligados entre sí que forman 
+"Hay un conjunto de unidades ligados entre sí que forman
 algo más grande"
-* Un sistema tiene limites 
+* Un sistema tiene limites
 * Se forma de subsistemas
 * Forma parte de suprasistemas
 * Se sitúan dentro de un...
 
 #Sistemas de información formales e informales
-- Los sitemas formales de información 
+- Los sitemas formales de información
 
-- Los sistemas informales de información se basan en 
+- Los sistemas informales de información se basan en
 reglas de comportamiento no establecidas.
-- Un ejemplo de esto es un correo que no sigue alguna regla. 
+- Un ejemplo de esto es un correo que no sigue alguna regla.
 
-# Un sistema de info, es un conjunto de personas, datos, 
-# procesos y tecnologías de la información que interactúan 
+# Un sistema de info, es un conjunto de personas, datos,
+# procesos y tecnologías de la información que interactúan
 # para recoger, procesar, almacenar y proveer la información
-# necesaria para el correcto funcionamiento de la 
+# necesaria para el correcto funcionamiento de la
 # organización.
 
 #Actividades de un sistema de información
 Recolección de datos -> Procesado almacenaje -> Distribución ->
-Retroalimentación -> Recolección de datos. 
+Retroalimentación -> Recolección de datos.
 
 
 #Sistemas de BD != Sistemas de archivos
-- Historicamente lo común era que en una empresa, cada 
-departamento almacenara su información de archivos por separado. 
+- Historicamente lo común era que en una empresa, cada
+departamento almacenara su información de archivos por separado.
 
 Por lo tanto había desventajas:
 - Redundancia e inconsistencia en los datos
@@ -101,44 +101,44 @@ necesidades de información de una organización.
 Tambien conocido como: Sistema manejador de BD
 o Sistema gestor de BD
 #Def
-Un sistema administrador de DB consiste en una colección de 
-datos interrelacionados. 
+Un sistema administrador de DB consiste en una colección de
+datos interrelacionados.
 
 #Características de los DBMS
 - Definición de estructuras para almacenar la información
 - Proveerme un mecanismo para la manipulación
 - Fiabilidad de la información almacenada
-(Accesos no autorizados, caida del sistema) 
+(Accesos no autorizados, caida del sistema)
 #Objetivo de los DBMS
-Almacenar la información y 
+Almacenar la información y
 recuperar la información de una bd de manera que sea práctica
-y no tardada. 
+y no tardada.
 #Ventajas de DBMS
 - Control de redundancia
 - Consistencia de datos
 - Datos compartidos
 - Mejora la integridad de datos
-- Mejora de seguridad 
+- Mejora de seguridad
 - Aplicación de estandarias
-- Aumento de la productividad 
+- Aumento de la productividad
 -Aumento de concurrencia
-- Mejora el mantenimiento a través de la independencia de datos 
-- Economía de escala (Se requiere menos gente para manejar 
-los datos a medida que aumentan) 
+- Mejora el mantenimiento a través de la independencia de datos
+- Economía de escala (Se requiere menos gente para manejar
+los datos a medida que aumentan)
 
 
 #Desventajas de un DBMS
 - Complejidad
-- Tamaño 
+- Tamaño
 - Costos de las licencias de DBMS
 - Costos adicionales de hardware
-- Costo de conversión 
+- Costo de conversión
 
 #Los distintos niveles de abstracción de una BD
-- Uno de los propósitos principales de un sistema 
+- Uno de los propósitos principales de un sistema
 de BD es proporcionar a los usuarios una visión abstracta
 de los datos. Es decir, el sistema esconde ciertos detalles
-de cómo se almacenan y mantienen los datos. 
+de cómo se almacenan y mantienen los datos.
 
 # Nivel de abstracción de los datos
 #Nivel Fisico: Estructuras de datos, programador del DBMS, como están almacenados los datos
@@ -146,13 +146,13 @@ de cómo se almacenan y mantienen los datos.
 #Nivel Logico: Representar las bd, estructura y tipo de datos de las bd y sus relaciones, programador de aplicaciones
 
 #Nivel de vistas: Usuarios de programas de aplicación, usuarios finales, las personas que van a utilizar la bd de manera
-#indirecta atra vez de una aplicación 
+#indirecta atra vez de una aplicación
 
 
-#*Nivel de abstracción lógico 
+#*Nivel de abstracción lógico
 - La bd completa se describe en términos de un número pequeño de estructuras relativamente simples
 
-- Aunque la implementación puede involucrar estructuras complejas del nivel físico 
+- Aunque la implementación puede involucrar estructuras complejas del nivel físico
 
 - Los administradores de bd usan el nivel lógico de abstracción
 
@@ -168,24 +168,24 @@ B programdores de apps - son los que crean los reportes
 C usuarios sofisticados - llegan a conocer como funciona la bd y pueden hacer consultas, otra gente les da el acceso
 D usuarios especializados - son usuarios que usan tipos de datos especificos y poco común
 
-# Administrador de bd 
+# Administrador de bd
 Es quien administra la base de datos y tiene acceso a todo
 
 Entre sus funciones tenemos:
 - define el esquema
-- define la estructura y el método de acceso  
+- define la estructura y el método de acceso
 - Modificación del esquema y de la organización física
 - Concesión de autorización para el acceso a los datos
-- Mantenimiento rutinario_ 
+- Mantenimiento rutinario_
 	- Respaldos
 	- Monitorear espacio en discos duros
 	- Supervisar el rendimiento de la BD
 
 # Componentes de los sistemas administradores de bd
-Los móduloes principales de un dbms son 
-- administrador de almacenamiento 
+Los móduloes principales de un dbms son
+- administrador de almacenamiento
 - procesador de consultas
-E internamente cada uno tiene dentro más módulos 
+E internamente cada uno tiene dentro más módulos
 
 
 # Arquitectura de los sistemas de bd (de 2 y 3 capas)
@@ -204,16 +204,16 @@ información
 
 
 #Fase 3. BD NoSQL
--Las tecnologías NoSAL (Big data) evolucionaron a partir de negocios basados en la web que necesitaban 
+-Las tecnologías NoSAL (Big data) evolucionaron a partir de negocios basados en la web que necesitaban
   almacenar grandes cantidades de información.
 - Tanta información que tuvo que disribuirse en muchas máquinas.
-- Se desarrollaron para examninar grandes patrones conjuntos de datos en busca de patrones. 
+- Se desarrollaron para examninar grandes patrones conjuntos de datos en busca de patrones.
 - Ahora a menudo también se aplican a la información generada por sensores.
 
-* Se encuentra disponible una gran biblioteca de herramientas estadísticas de código abierto 
-* Los datos no se estructuran cuando se almacenan inicialmente, la estructura se aplica cuando las 
-  herramientas leen la base de datos. 
-* Aquí el escalado es mediante la adición de más computadores (de productos básicos) a la red. 
+* Se encuentra disponible una gran biblioteca de herramientas estadísticas de código abierto
+* Los datos no se estructuran cuando se almacenan inicialmente, la estructura se aplica cuando las
+  herramientas leen la base de datos.
+* Aquí el escalado es mediante la adición de más computadores (de productos básicos) a la red.
 
 
 
@@ -224,38 +224,38 @@ información
 
 - Nueva clase de tecnologia con SAP HANA como la oferta más madura
 
-- Busca proporcionar el mismo rendimiento 
+- Busca proporcionar el mismo rendimiento
 
-# Hacer un mapa mental a tres niveles 
+# Hacer un mapa mental a tres niveles
 
 #FUTURO DE LAS BD
 - NOSQL y Global
 
-HTAP es una base de dates implementada en las cloud big tables que es una 
+HTAP es una base de dates implementada en las cloud big tables que es una
 combinación entre OLAP Y OLTP
 
-#Bases de datos autonomas 
+#Bases de datos autonomas
 Las propone ORACLE
-caracteristicas: 
+caracteristicas:
 	- Se autoprovisione
 	- Se autorepare
 	- Se autoproteja
 	- Autoescalamiento
-	- Autooptimización 
+	- Autooptimización
 
 Tendencias tecnológicas que están
-modelando la base de datos empresarial 
+modelando la base de datos empresarial
 
 Sistemas autónomos
 Computación a hiperescala
-- Conforme van poniendo nodos los toma para 
-mayor procesamiento 
+- Conforme van poniendo nodos los toma para
+mayor procesamiento
 Seguridad de blockchain
 IoT
 
 #Arquitecturas de los sistemas de bases de datos
 La arquitectura de un sistema de bases de datos se esta influida
-por el sistema sobre el que se ejecuta. 
+por el sistema sobre el que se ejecuta.
 
 
 Centralizado (incluye cliente-servidor)
@@ -263,9 +263,9 @@ Paralelos
 Distribuidos
 
 #Centralizadas y cliente-servidor
-Los sistemas de bd centralizados son aquellos que se 
-ejecutan en un único sistema informático sin interaccionar 
-con ninguna otra computadora. 
+Los sistemas de bd centralizados son aquellos que se
+ejecutan en un único sistema informático sin interaccionar
+con ninguna otra computadora.
 
 
 Los sitemas centralizados actúan hoy como sistemas servidores
@@ -279,21 +279,21 @@ de la aplicación.
 Arquitectura de Sistemas de BD paralelos
 
 -Un DBS paralelo es aquel "que se ejecuta en varios procesadores
-y discors y que está diseñado para ejecutar operaciones en 
-paralelo, siempre que sea posible, con el fin de mejorar el 
-rendimiento. 
+y discors y que está diseñado para ejecutar operaciones en
+paralelo, siempre que sea posible, con el fin de mejorar el
+rendimiento.
 
 #19/10/2020
 
-#BD Distribuida 
+#BD Distribuida
 Una colección de datos compartidos logicamente interrelacionados
-distribuidos fisicamente a través de una red informática. 
+distribuidos fisicamente a través de una red informática.
 
-#Un sistema administrados de datos distribuidas (SABDD)  
-El sistema de software que permite la administración de la 
+#Un sistema administrados de datos distribuidas (SABDD)
+El sistema de software que permite la administración de la
 bd distribuida y que hace que la distribución sea transparente
 para los usuarios.
-    #*Esta integrado lógicamente pero distribuido físicamente. 
+    #*Esta integrado lógicamente pero distribuido físicamente.
 
 #Diferencia entre DBMS distribuidos y paralelos
 #DBMS distribuidos
@@ -302,26 +302,26 @@ para los usuarios.
 	-Conectados por redes WAN
 	-Utilizan mensajes con altas latencias y tasas de error
 #DBMS paralelo
-	-se encuentra en una única localización (site único) 
-	-Típicamente compuestos por múltiples unidades de 
+	-se encuentra en una única localización (site único)
+	-Típicamente compuestos por múltiples unidades de
 	procesamiento dentro de un clúster o SITE (centro de datos)
-	- Tipicamente conectados en red LAN, incluso con switches de 
+	- Tipicamente conectados en red LAN, incluso con switches de
 	fibra óptica
-	- Los mensajes con que se comunican tienen baja latencia con 
+	- Los mensajes con que se comunican tienen baja latencia con
 	tasas bajas de error
 
 #DBMS Distribuidas y Paralelos
 	-En ambos casos las bases de datos están distribuidas
 	-En la práctica existen DBMS dsitribuidas en distintos centros
-	de datos cada uno con clúster de procesamiento lo que lleva a 
+	de datos cada uno con clúster de procesamiento lo que lleva a
 	la existencia de sistemas híbridos, multi-sitio
 
 #Modelos de arquitectura para DDBMS
-Se puede clasificar los modelos de arquitectura para 
-DDBMS de acuerdo a su diseño considerando tres dimensiones: 
+Se puede clasificar los modelos de arquitectura para
+DDBMS de acuerdo a su diseño considerando tres dimensiones:
 	-Autonomía (con respecto al sistema local). Cada uno de los
-	nodos puede funcionar sin que los otros esten encendidos. 
-	-Distribución 
+	nodos puede funcionar sin que los otros esten encendidos.
+	-Distribución
 	-Heterogeneidad
 
 Estas 3 dimensiones son ortogonales.
@@ -329,90 +329,91 @@ Estas 3 dimensiones son ortogonales.
 
 #Procesamiento distribuido y BD distribuidas
 - En procesamiento distribuido, el procesamiento lógico de una
-base de datos es compartido entre dos o más sitios 
+base de datos es compartido entre dos o más sitios
 físicamente independientes que, estén conectados.
 
 "Una base de datos distribuida, por otra parte, guarda una bd
-relacionada lógicamente en dos o más sitios físicamente 
-independientes. Los sitios están conectados mediante una red computarizada. 
+relacionada lógicamente en dos o más sitios físicamente
+independientes. Los sitios están conectados mediante una red computarizada.
 
 
-* El procesamiento fistribuido no requiere forzosamene una 
-bd distribuida. 
+* El procesamiento fistribuido no requiere forzosamene una
+bd distribuida.
 
 * El procesamiento distribuido puede estar basado en una
 sola bd ubicada en una sola computadora
 
 * Una base de datos distribuida requiere procesamiento distribuido
 
-*Tanto el procesamiento distribuido como las bases de datos 
+*Tanto el procesamiento distribuido como las bases de datos
 distribuidas requiere de una red
 
 #Características de un DDBMS
-Debe tener las siguientes funciones para ser clasificado 
-como distribuido: 
-- Interfaz de aplicación 
+Debe tener las siguientes funciones para ser clasificado
+como distribuido:
+- Interfaz de aplicación
 - Validado de sintaxis
 - Transformación para descomponer solicitudes de datos
-complejas en componentes atómicos de solicitud. 
+complejas en componentes atómicos de solicitud.
 - Optimización de consulta
 - Mapeo para determinar la ubicación de los datos de fragmentos
-locales y remotos. 
+locales y remotos.
 - Interfaz de I/O para leer o escribir datos desde o hacia
 un almacenamiento local permanente.
 - Formateo para preparar los datos para presentación al usuario
 final o a un programa de aplicación
 - Seguridad
-- Respaldo y recuperación 
-- Funciones de administración de una base de datos para el 
-administrador de la BD. 
+- Respaldo y recuperación
+- Funciones de administración de una base de datos para el
+administrador de la BD.
 - Control de concurrencia
-- Administración y sincronización de transacciones locales y 
+- Administración y sincronización de transacciones locales y
 remotas
 #componentes de DDBMS
-- Estaciones de trabajo o equipós remotos (sitios o nodos) 
+- Estaciones de trabajo o equipós remotos (sitios o nodos)
 - Componentes de hardware y software de red
 - Medios de comunicación que lleven los datos de un nodo a otro
 (red)
+
 - Procesador de transacciones (TP)
 - Procesador de datos (DP)
 
-#El procesador de transacciones (TP) 
-- Recibe y procesa las solicitudes de datos de la aplicación 
-(remota y local) 
+#El procesador de transacciones (TP)
+- Recibe y procesa las solicitudes de datos de la aplicación
+(remota y local)
 - Es un componente de software
 - Se debe encontrar en cada computadora o equipo que pida datos
-- También se conoce como procesador de aplicaciones o administrador 
+- También se conoce como procesador de aplicaciones o administrador
 de transacciones
 
-#El procesador de datos (DP) 
-Guarda y recupera datos localizados en el sitio 
+#El procesador de datos (DP)
+Guarda y recupera datos localizados en el sitio
 - Es un componente de software que reside en cada computadora
-o equipo 
-- Puede que sea un dbms local 
+o equipo
+- Puede que sea un dbms local
 
 #Componentes de un DDBMS TP y DP
-- La comunicación entre los TP y los DP 
+- La comunicación entre los TP y los DP
 es posible mediante protocolos, usados por el DDBMS
-- Los DP y los TP se pueden agregar al sistema sin 
-afectar la operación de los otros componentes. 
-- Un TP y un DP pueden residir en la misma computadora, 
+- Los DP y los TP se pueden agregar al sistema sin
+afectar la operación de los otros componentes.
+- Un TP y un DP pueden residir en la misma computadora,
 permitiendo al usuario final tener acceso transparente a datos
-locales y remotos. 
+locales y remotos.
 
 #Protocolos entre TP y DP
-Los protocolos determinan la forma en que el sistema 
+Los protocolos determinan la forma en que el sistema
 de bdd trabaja:
 - Se entrelazan con la red para transportar datos y comandos
-entre procesadores de datos (DP) y (TP) 
+entre procesadores de datos (DP) y (TP)
 - Sincroniza todos los datos recibidos de las DP
 (lado de TP) y enruta los datos recuperados a los TP
-apropiados (lado de DP) 
-- Asegura funciones de base de datos comunes en 
+apropiados (lado de DP)
+- Asegura funciones de base de datos comunes en
 un sistema distribuido. 
 
-#Niveles de distribución de datos y procesos 
-"Los sistemas actuales de bd pueden ser clasificados a 
+#Niveles de distribución de datos y procesos
+"Los sistemas actuales de bd pueden ser clasificados a
 partir de como soportan la distribución de procesos
 y la de datos".
 
@@ -421,78 +422,78 @@ datos de sitios multiples -(servidor de archivos)Proceso de
 sitios multiples
 
 
-#Procesamineto en un solo sitio, datos en un solo sitio 
-(SPSD) 
+#Procesamineto en un solo sitio, datos en un solo sitio
+(SPSD)
 
-El DBMS se encuentra en la computadora anfitrión. 
-Es la situación tipica de: 
+El DBMS se encuentra en la computadora anfitrión.
+Es la situación tipica de:
 - Casi todos los DBMS de mainframe y servidores de mediana
-capacidad. 
+capacidad.
 - La primera generación de BD de microcomputadoras de un
 solo usuario.
 
 #Procesamineto en sitios múltiples, datos en un solo sitio
 (MPSD)
 
-"En una situación de un procesamiento en múltiples sitios, 
-datos en un solo sitio (MPSD), varios procesos se ejecutan 
+"En una situación de un procesamiento en múltiples sitios,
+datos en un solo sitio (MPSD), varios procesos se ejecutan
 
 
--En MPSD las funciones de selección, búsqueda y actualización 
-de datos tienen lugar en la estación de trabajo. Los 
-archivos viajan completos por la red lo cual puede saturarla. 
+-En MPSD las funciones de selección, búsqueda y actualización
+de datos tienen lugar en la estación de trabajo. Los
+archivos viajan completos por la red lo cual puede saturarla.
 
 #MPSD y su relación con la arquitectura cliente-sevidor
 - Una variación del método de procesamiento de múltiples
 sitios y datos de un solo sitio se conoce como arquitectura
-cliente/servidor. 
+cliente/servidor.
 
-La arquitectura cliente/servidor es semejante a la del 
+La arquitectura cliente/servidor es semejante a la del
 servidor de archivos de red excepto que todo el procesamiento
 de la BD se realiza en el sitio del servidor, reduciendo así
-el tráfico de red. 
+el tráfico de red.
 
 Sin embargo la arquitectura cliente/servidor es capaz de
-soportar datos en sitios múltiples. 
+soportar datos en sitios múltiples.
 
 #Procesamiento en sitios múltiples, datos en sitios múltiples
-(MPMD) 
+(MPMD)
 
 El escenario de procesamiento en sitios múltiples, datos en
-sitios múltiples describe un DBMS totalmente distribuido. 
+sitios múltiples describe un DBMS totalmente distribuido.
 
-Dependiendo del nivel de soporte para diversos tipos de 
-DBMS centralizados, los DDBMS se clasificacn como: 
-	*DDBMS Homogéneo: Integran sólo un tipo de DBMS 
+Dependiendo del nivel de soporte para diversos tipos de
+DBMS centralizados, los DDBMS se clasificacn como:
+	*DDBMS Homogéneo: Integran sólo un tipo de DBMS
 	centralizado en una red.
-	
+
 	*DDBMS Heterogéneo: Integran diferentes tipos de DBMS
-	centralizados en una red. 
+	centralizados en una red.
 
 Un DDBMS totalmente heterogéneo soportará diferentes
 DBMS que pueden incluso dar soporte a diferentes modelos de
-datos (relacionales, jerárquicos o de red) que se ejecutan 
-bajo diferentes sistemas computarizados, por ejemplo: 
+datos (relacionales, jerárquicos o de red) que se ejecutan
+bajo diferentes sistemas computarizados, por ejemplo:
 mainframes y computadoras personales
 
 
 #CARACTERISTICAS DE TRANSPARENCIA DE LAS BD DISTRIBUIDAS
 
-- La transparencia de una DDBMS consiste en que "todas las 
-complejidades de una BD distribuida están ocultas, o son 
+- La transparencia de una DDBMS consiste en que "todas las
+complejidades de una BD distribuida están ocultas, o son
 transparentes, al usuario"
 
 *Las caracteristicas de transparencia del DDBMS son:
-	Transparencia de distribución 
-	transacción 
+	Transparencia de distribución
+	transacción
 	fallas
 	desempeño
 	heterogeneidad
 
 
-#Transparencia de distribución se divide en tres: 
+#Transparencia de distribución se divide en tres:
 	Transperencia de fragmentación
-	ubicación 
+	ubicación
 	ubicación local
 
 #09/NOV/20
@@ -501,60 +502,60 @@ transparentes, al usuario"
     número de tablas, campos, tipo de dato, etc.
 
     En el caso de las BD distribuidas se le llama diccionario
-    de datos distribuidos y son muy necesarios. 
-    - Debe mantener consistencia mediante la actualización 
-    en todos los sitios. 
+    de datos distribuidos y son muy necesarios.
+    - Debe mantener consistencia mediante la actualización
+    en todos los sitios.
 
-    - Es utilizado por los procesadores(TP) para 
+    - Es utilizado por los procesadores(TP) para
     transformar las consultas a los procesadores de datos (DP)
 
 
-TRANSPARENCIA DE TRANSACCIÓN 
-- Es la propiedad del DBMS que garantiza que las 
+TRANSPARENCIA DE TRANSACCIÓN
+- Es la propiedad del DBMS que garantiza que las
 transacciones en la BD mantendra la integridad y consistencia
-de la DB distribuida. 
+de la DB distribuida.
 
 
-La transparencia de transacción garantiza que la 
-transacción será completada solo si todos los sitios 
-implicados en la transacción completa su parte de ésta. 
+La transparencia de transacción garantiza que la
+transacción será completada solo si todos los sitios
+implicados en la transacción completa su parte de ésta.
 
 
-SOLICITUD REMOTA 
-- Acceder a datos que serán procesados por un solo 
+SOLICITUD REMOTA
+- Acceder a datos que serán procesados por un solo
 procesador por un solo procesador de bases de datos remoto.
 - Esta compuesta de varias solicitudes, accede a datos en un
-solo sitio. 
+solo sitio.
 
 #TRANSACCIÓN DISTRIBUIDA
-- Una transacción distribuida permite que una 
+- Una transacción distribuida permite que una
 transacción haga referencia a varios sitios de procesamiento.
 
 
 #SOLICITUD DISTRIBUIDA
 - Permite hacer referencia a datos de varios sitios
-remotos de procesamiento. 
+remotos de procesamiento.
 
 
-TRANSPARENCIA DE TRANSACCIÓN 
+TRANSPARENCIA DE TRANSACCIÓN
 Comprender los distintos tipos de solicites a BD distibuidas,
 ayuda a aboirdar el tema de la transparencia de transacción
-de manera eficaz. 
+de manera eficaz.
 
 
 
-TRANSPAENCIA DE DESEMPEÑO Y OPTIMIZACION DE 
+TRANSPAENCIA DE DESEMPEÑO Y OPTIMIZACION DE
 CONSULTAS
 
-- El DBMS utiliza técnica de optimizaciión 
-de consultas para garantizar un desempeño aceptable de la 
+- El DBMS utiliza técnica de optimizaciión
+de consultas para garantizar un desempeño aceptable de la
 BD.
 
 
 - Para evaluar la optimización de consultas, se debe tomar
-en cuenta que el procesador de transacciones recibe datos 
-de los procesadores de datos, los sincroniza, arma la 
-respuesta y la presenta al usuario o la aplicación 
+en cuenta que el procesador de transacciones recibe datos
+de los procesadores de datos, los sincroniza, arma la
+respuesta y la presenta al usuario o la aplicación
 
 
 ## TRANSPARENCIA DE RÉPLICA
@@ -564,45 +565,43 @@ múltiples de datos al usuario.
 La mayoría de los algoritmos de optimización de consultas
 se basan en dos principios:
     - Selección del orden de ejecución optimo
-    - La selección de los sitios a ser accedidos para 
-    reducir al mínimo el costo de comunicación. 
+    - La selección de los sitios a ser accedidos para
+    reducir al mínimo el costo de comunicación.
 
-- Se clasifican en: 
+- Se clasifican en:
     - Optimización de consulta automática:
-	Localiza la ruta de acceso más barata sin 
+	Localiza la ruta de acceso más barata sin
 	intervención del usuario
     - Optimización de consulta manual
-	- El usuario programa de manera manual 
-	la consulta. 
+	- El usuario programa de manera manual
+	la consulta.
 
 - Tmbién se clasifican de acuerdo al momento en el que se
-realiza la optimización 
-    A- Optimización de consulta estática: En tiempo de 
-    compilación 
-    B- optimización de consulta dinámica: En tiempo 
-    de ejecución 
+realiza la optimización
+    A- Optimización de consulta estática: En tiempo de
+    compilación
+    B- optimización de consulta dinámica: En tiempo
+    de ejecución
 
 
-Algoritmo de optimización de consulta basado en 
-estadisticas: 
+Algoritmo de optimización de consulta basado en
+estadisticas:
     - De generación dinámica
-    - De generación manual 
+    - De generación manual
 
 Algoritmo de optimización de consulta basado en reglas
-    - Las reglas son ingresadas por el usuario final 
-    o el DBA y son típicamente de naturaleza muy general. 
+    - Las reglas son ingresadas por el usuario final
+    o el DBA y son típicamente de naturaleza muy general.
 
 
 FORZAMIENTO DE LA INTEGRIDAD EN BD DISTRIBUIDAS
 
 - La integridad es una de las caracteristicas
-que deben poseer los datos almacenados en una BD, 
+que deben poseer los datos almacenados en una BD,
 y en general la información manejada por un sistema de cómputo
 
-LA INTEGRIDAD DE LA INFORMACIÓN 
+LA INTEGRIDAD DE LA INFORMACIÓN
     La información está completa y libre de errores
 
-    La información es precisa, está completa y es válida, 
-    de acuerdo a los valores y expectativas de la compañia. 
-
-
+    La información es precisa, está completa y es válida,
+    de acuerdo a los valores y expectativas de la compañia.

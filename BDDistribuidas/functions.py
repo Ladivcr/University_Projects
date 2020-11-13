@@ -4,70 +4,94 @@
 @uthor: José Vidal Cardona Rosas & Gustavo Alfredo Zarate Acosta
 About: Tablas distribuidas
 """
+
+"""
+Algunas líneas que nos van a servir
+cursos.execute("SHOW DATABASES")
+mybds = cursor.fetchall() #obtener las bds de mi mysql
+
+cursor.execute(f"USE {bd}") #usar una base de datos
+cursor.execute("SHOW TABLES") #mostrar tablas
+tables = cursor.fetchall()
+"""
 ##################ARCHIVO DE FUNCIONES#################################
 
 import mysql.connector
 from mysql.connector import errorcode
 import json
+# Carga de las credenciales
+with open("credentialsDBMorelia.json") as file:
+    credentials = json.load(file)
+
+# Seleccionamos las credenciales
+
+user = credentials["credentials"][0]["user"]
+password = credentials["credentials"][0]["password"]
+host = credentials["credentials"][0]["host"]
+#nameDB = credentials["credentials"][0]["database"]
+
 
 def conexionMorelia():
-    # Carga de las credenciales
-    with open("credentialsDBMorelia.json") as file:
-        credentials = json.load(file)
-
-    # Seleccionamos las credenciales
-
-    user = credentials["credentials"][0]["user"]
-    password = credentials["credentials"][0]["password"]
-    host = credentials["credentials"][0]["host"]
-    nameDB = credentials["credentials"][0]["database"]
-
     # Hacemos la conexión
     try:
         cnx = mysql.connector.connect(user=user,
                 password=password,
-                host=host,
-                database=nameDB)
+                host=host)
 
-        return("\t¡Conexión a BDMorelia exitosa!")
-        #cnx.close()
+        cursor = cnx.cursor()
+        cursor.execute("SHOW DATABASES")
+        mybds = cursor.fetchall() #obtener las bds de mi mysql
+        #print(mybds)
+        # Elegimos la base de datos
+        for bd in mybds:
+            #print(bd[0])
+            #print(bd[0] == "Morelia")
+            if bd[0] == "Morelia":
+                cursor.execute(f"USE {bd[0]}") #usar una base de datos
+                print("Conexión a Morelia exitosa...\n")
+                return(True)
     except:
-        return("La conexión a BDMorelia fallo...")
+        return(False)
 
 def conexionPatzcuaro():
-    # Carga de las credenciales
-    with open("credentialsDBPatzcuaro.json") as file:
-        credentials = json.load(file)
-
-    # Seleccionamos las credenciales
-
-    user = credentials["credentials"][0]["user"]
-    password = credentials["credentials"][0]["password"]
-    host = credentials["credentials"][0]["host"]
-    nameDB = credentials["credentials"][0]["database"]
-
     # Hacemos la conexión
     try:
         cnx = mysql.connector.connect(user=user,
                 password=password,
-                host=host,
-                database=nameDB)
+                host=host)
 
-        return("\t¡Conexión a BDPátzcuaro exitosa!")
+        cursor = cnx.cursor()
+        cursor.execute("SHOW DATABASES")
+        mybds = cursor.fetchall() #obtener las bds de mi mysql
+        # Elegimos la base de datos
+        for bd in mybds:
+            if bd[0] == "Patzcuaro":
+                cursor.execute(f"USE {bd[0]}") #usar una base de datos
+                print("Conexión a Pátzcuaro exitosa...\m")
+                return(True)
     except:
-        return("La conexión a BDPátzcuaro fallo...")
+        return(False)
 
 
+# OPERACIONES A REALIZAR EN LA BASE DE DATOS
+
+#1) Registras nuevo cliente
+#2) Registrar nueva dirección
+#3) Actualizar cliente
+#4) Actualizar dirección
+#5) Buscar clientes
+#6) Listar clientes
+#7) Listar clientes totales
+        
 def TP():
     """
-    Procesador de transacciones (TP)
-    - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
-    - Es un componente de software
-    - Se debe encontrar en cada computadora o equipo que pida datos
-    - También se conoce como procesador de aplicaciones o administrador
-    de transacciones
+        Procesador de transacciones (TP)
+        - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
+        - Es un componente de software
+        - Se debe encontrar en cada computadora o equipo que pida datos
+        - También se conoce como procesador de aplicaciones o administrador
+        de transacciones
     """
-    pass
 def DP():
     """
     Procesador de datos (DP)
