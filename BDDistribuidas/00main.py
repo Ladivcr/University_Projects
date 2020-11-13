@@ -35,33 +35,40 @@ while programa:
         status = functions.conexionMorelia()
         if status == True:
             opcion = acciones()
-            
+
             #1) Registras nuevo cliente
             if opcion == 1:
+                pass
                 status = add_client()
 
             #2) Registrar nueva dirección
             elif opcion == 2:
+                pass
                 status = add_address()
 
             #3) Actualizar cliente
-            elif option == 3:
+            elif opcion == 3:
+                pass
                 status = update_client()
 
             #4) Actualizar dirección
             elif opcion == 4:
+                pass
                 status = update_address()
 
             #5) Buscar cliente
             elif opcion == 5:
+                pass
                 result = search_client()
 
             #6) Listar clientes
             elif opcion == 6:
+                pass
                 result = list_clients()
 
             #7) Listar clientes totales
             elif option == 7:
+                pass
                 result = list_total_clients()
 
         elif status == False:
