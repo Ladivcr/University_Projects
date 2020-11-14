@@ -25,21 +25,25 @@ programa = True
 while programa:
     try:
         #ELECCION DE UBICACIÓN POR PARTE DEL USUARIO
-        print("Elige tu ubicación introduciendo un número")
+        print("\nElige tu ubicación introduciendo un número\n")
         opt = int(input("\n1) Morelia\n2) Pátzcuaro\n3) Salir\n"))
     except:
         print("Debes introducir un número para identificarte...")
 
     # CONEXION A Morelia DADA LA UBICACION ELEGIDA
     if opt == 1:
-        status = functions.conexionMorelia()
+        BD = "Morelia"
+        status = functions.conexionMorelia(BD) # Comprobamos que se pueda hacer la conexión
         if status == True:
+            BD = "Morelia"
             opcion = acciones()
-
             #1) Registras nuevo cliente
             if opcion == 1:
-                pass
-                status = add_client()
+                status = functions.add_client(BD)
+                if status == True:
+                    print("\tRegistro efectuado correctamente")
+                else:
+                    print("No ha sido posible efectuar el registro")
 
             #2) Registrar nueva dirección
             elif opcion == 2:
@@ -78,9 +82,11 @@ while programa:
 
     # CONEXION A Pátzcuaro DADA LA UBICACION ELEGIDA
     elif opt == 2:
-        status = functions.conexionPatzcuaro()
+        BD = "Patzcuaro"
+        status = functions.conexionPatzcuaro(BD) # Comprobar que se efectuo la conexión
         if status == True:
             opcion = acciones()
+            
         elif status == False:
             print("Algo fallo en la conexión a Pátzcuaro, contacta al admin.")
 
