@@ -31,7 +31,7 @@ host = credentials["credentials"][0]["host"]
 #nameDB = credentials["credentials"][0]["database"]
 
 
-def conexionMorelia():
+def conexionMorelia(BD):
     # Hacemos la conexión
     try:
         cnx = mysql.connector.connect(user=user,
@@ -39,17 +39,9 @@ def conexionMorelia():
                 host=host)
 
         cursor = cnx.cursor()
-        cursor.execute("SHOW DATABASES")
-        mybds = cursor.fetchall() #obtener las bds de mi mysql
-        #print(mybds)
-        # Elegimos la base de datos
-        for bd in mybds:
-            #print(bd[0])
-            #print(bd[0] == "Morelia")
-            if bd[0] == "Morelia":
-                cursor.execute(f"USE {bd[0]}") #usar una base de datos
-                print("Conexión a Morelia exitosa...\n")
-                return(True)
+        cursor.execute(f"USE {BD}")
+        print("Conexión a Morelia exitosa...\n")
+        return(True)
     except:
         return(False)
 
@@ -61,14 +53,9 @@ def conexionPatzcuaro():
                 host=host)
 
         cursor = cnx.cursor()
-        cursor.execute("SHOW DATABASES")
-        mybds = cursor.fetchall() #obtener las bds de mi mysql
-        # Elegimos la base de datos
-        for bd in mybds:
-            if bd[0] == "Patzcuaro":
-                cursor.execute(f"USE {bd[0]}") #usar una base de datos
-                print("Conexión a Pátzcuaro exitosa...\m")
-                return(True)
+        cursor.execute(f"USE {BD}")
+        print("Conexión a Pátzcuaro exitosa...\n")
+        return(True)
     except:
         return(False)
 
@@ -76,13 +63,42 @@ def conexionPatzcuaro():
 # OPERACIONES A REALIZAR EN LA BASE DE DATOS
 
 #1) Registras nuevo cliente
+def add_client(BD):
+    from datetime import datetime
+    from random import choice
+    date = str(datetime.now())
+    año = date[2:4]; mes = date[5:7]; dia = date[8:10]
+    aux = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    homoclave = choice(aux)+choice(aux)+choice(aux)
+
+    print("\tIntroduce los siguientes datos\n")
+    name = str(input("Nombre: "))
+    apellidoP = str(input("Apellido Paterno: "))
+    apellidoM = str(input("Apellido Materno: "))
+    RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+mes+dia+homoclave
+    Id =  name[0:2]+apellidoP[0:2]+apellidoM[0:2]
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
+        cursor = cnx.cursor()
+        cursor.execute(f"USE {BD}")
+        sentence = "INSERT INTO Clientes(Id, Nombre, ApellidoP, ApellidoM, RFC) VALUES (%s, %s, %s, %s, %s)"
+        val = (Id, name, apellidoP, apellidoM, RFC)
+        cursor.execute(sentence, val)
+        cursor.close()
+        cnx.commit()
+        cnx.close()
+        return(True)
+    except:
+        return (False)
+
+
 #2) Registrar nueva dirección
 #3) Actualizar cliente
 #4) Actualizar dirección
 #5) Buscar clientes
 #6) Listar clientes
 #7) Listar clientes totales
-        
+
 def TP():
     """
         Procesador de transacciones (TP)

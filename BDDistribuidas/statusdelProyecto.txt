@@ -1,12 +1,12 @@
 A. Bases de datos distribuidas y homogéneas (mismo DBMS, tablas con la misma estructura):
   a. DBMS MariaDB LISTO
-  
+
   b. Dos bases de datos (una por sucursal) con:
     i. Tabla Clientes (Id, Nombre, ApellidoPaterno, ApellidoMaterno, RFC) LISTO
     ii. Tabla Direcciones (Id, Calle, Numero, Colonia, Estado, CP, idCliente) LISTO
 
     c. Las tablas deben tener registros únicos globalmente, es decir cada registro existe
-    solo una vez en todo el sistema distribuido.
+    solo una vez en todo el sistema distribuido. 
 
 
 B. Un programa que haga las funciones de procesador de datos (DP) y procesador de
