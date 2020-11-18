@@ -67,22 +67,33 @@ def add_client(BD):
     from datetime import datetime
     from random import choice
     date = str(datetime.now())
-    año = date[2:4]; mes = date[5:7]; dia = date[8:10]
-    aux = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
-    homoclave = choice(aux)+choice(aux)+choice(aux)
 
-    print("\tIntroduce los siguientes datos\n")
+    #aux = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    #He eliminado la aleatoriedad en la homoclave para tener un
+    #mejor control, así mimso el mes y el día
+    #homoclave = choice(aux)+choice(aux)+choice(aux)
+    año = date[2:4] #mes = date[5:7]; dia = date[8:10]
+    aux = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8, "J":9,
+    "K":10, "L":11, "M":12, "N":13, "O":14, "P":16, "Q":17, "R":18, "S":19,
+    "T":20, "U":21, "V":22, "W":23, "X":24, "Y":25, "Z":26}
+    print("\tIntroduce los siguientes datos para añadir el cliente\n")
     name = str(input("Nombre: "))
+    #name = name.upper()
     apellidoP = str(input("Apellido Paterno: "))
+    #apellidoP = apellidoP.upper()
     apellidoM = str(input("Apellido Materno: "))
-    RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+mes+dia+homoclave
-    Id =  name[0:2]+apellidoP[0:2]+apellidoM[0:2]
+    #apellidoM = apellidoM.upper()
+    homoclave = apellidoP[2:3].upper()+apellidoM[1:3].upper()+str(aux[name[-1].upper()])+str(aux[apellidoP[-1].upper()])
+    RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+homoclave
+    Id =  name[0:2].upper()+apellidoP[0:2].upper()+apellidoM[0:2].upper()
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
         sentence = "INSERT INTO Clientes(Id, Nombre, ApellidoP, ApellidoM, RFC) VALUES (%s, %s, %s, %s, %s)"
         val = (Id, name, apellidoP, apellidoM, RFC)
+        # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
+        # CORROBORAR QUE SEA UN REGISTRO GLOBAL
         cursor.execute(sentence, val)
         cursor.close()
         cnx.commit()
@@ -93,13 +104,46 @@ def add_client(BD):
 
 
 #2) Registrar nueva dirección
+def add_address(BD):
+    print("\tIntroduce los siguientes datos para añadir la dirección\n")
+    calle = str(input("Calle: "))
+    calle = calle.upper()
+
+    colonia = str(input("Colonia: "))
+    colonia = colonia.upper()
+
+    estado = str(input("Estado (abreviado): "))
+    estado = estado.upper()
+
+    CP = str(input("Código Postal: "))
+    idCliente = str(input("Id Cliente: "))
+
+    Id =  estado[0:2]+colonia[0:2]+CP[0:2]
+
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
+        cursor = cnx.cursor()
+        cursor.execute(f"USE {BD}")
+        sentence = "INSERT INTO Direcciones(Id, Calle, Colonia, Estado, CP, idCliente) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (Id, calle, colonia, estado, CP, idCliente)
+        # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
+        # CORROBORAR QUE SEA UN REGISTRO GLOBAL
+        cursor.execute(sentence, val)
+        cursor.close()
+        cnx.commit()
+        cnx.close()
+        return(True)
+    except:
+        return (False)
 #3) Actualizar cliente
 #4) Actualizar dirección
 #5) Buscar clientes
 #6) Listar clientes
 #7) Listar clientes totales
 
-def TP():
+# TP nos ayudara a evaluar que no haya registros duplicados en la BD
+# sino que los registro sean únicos y globales
+def TP(name = None, RFC = None, domicilio = None):
     """
         Procesador de transacciones (TP)
         - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)

@@ -41,14 +41,20 @@ while programa:
             if opcion == 1:
                 status = functions.add_client(BD)
                 if status == True:
-                    print("\tRegistro efectuado correctamente")
+                    print("\t Registro efectuado correctamente")
+                elif status == False:
+                    print("\t No ha sido posible efectuar el registro")
                 else:
-                    print("No ha sido posible efectuar el registro")
-
+                    print("\t Algo a salido mal a la hora de efectuar el registro del cliente")
             #2) Registrar nueva dirección
             elif opcion == 2:
-                pass
-                status = add_address()
+                status = functions.add_address(BD)
+                if status == True:
+                    print("\t Registro de dirección efectuado correctamente")
+                elif status == False:
+                    print("\t No ha sido posible efectuar el registro de la dirección")
+                else:
+                    print("\t Algo a salido mal a la hora de efectuar el registro de dirección")
 
             #3) Actualizar cliente
             elif opcion == 3:
@@ -86,7 +92,7 @@ while programa:
         status = functions.conexionPatzcuaro(BD) # Comprobar que se efectuo la conexión
         if status == True:
             opcion = acciones()
-            
+
         elif status == False:
             print("Algo fallo en la conexión a Pátzcuaro, contacta al admin.")
 
