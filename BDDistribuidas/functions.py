@@ -86,6 +86,21 @@ def add_client(BD):
     homoclave = apellidoP[2:3].upper()+apellidoM[1:3].upper()+str(aux[name[-1].upper()])+str(aux[apellidoP[-1].upper()])
     RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+homoclave
     Id =  name[0:2].upper()+apellidoP[0:2].upper()+apellidoM[0:2].upper()
+
+    # para TP
+    cliente = [name, RFC]
+    # Comprobamos que no haya un registro con estos DATOS
+    try:
+        status = TP(cliente)
+        #print("estado!!",status)
+        if status == True:
+            print("\n\tEl registro ya existe en una de las BD")
+            return(False)
+        elif status == False:
+            pass
+    except:
+        pass
+
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
@@ -119,6 +134,19 @@ def add_address(BD):
     idCliente = str(input("Id Cliente: "))
 
     Id =  estado[0:2]+colonia[0:2]+CP[0:2]
+    # Para TP
+    domicilio = [calle, colonia, estado, CP]
+    # Comprobamos que no haya un registro con estos DATOS
+    try:
+        status = TP(domicilio)
+        #print("estado!!",status)
+        if status == True:
+            print("\n\tEl registro ya existe en una de las BD")
+            return(False)
+        elif status == False:
+            pass
+    except:
+        pass
 
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
@@ -143,15 +171,78 @@ def add_address(BD):
 
 # TP nos ayudara a evaluar que no haya registros duplicados en la BD
 # sino que los registro sean únicos y globales
-def TP(name = None, RFC = None, domicilio = None):
+#    Procesador de transacciones (TP)
+# - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
+
+def TP(cliente = None, domicilio = None):
     """
-        Procesador de transacciones (TP)
-        - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
-        - Es un componente de software
-        - Se debe encontrar en cada computadora o equipo que pida datos
-        - También se conoce como procesador de aplicaciones o administrador
-        de transacciones
+    cliente = arreglo compuesto por nombre y RFC del cliente
+    domicilio = arreglo compuesto por calle, colonia, estado y CP
+    BD = Base de datos en la que se efectuara la consulta
     """
+    BD = ["Morelia", "Patzcuaro"]
+    #print(cliente, domicilio)
+    if cliente != None and domicilio == None:
+        #print("ENTREX2")
+        #Busqueda de cliente
+        name = cliente[0]; RFC = cliente[1]
+        for bd in BD:
+            cnx = mysql.connector.connect(user=user,
+            password=password, host=host, database=bd)
+            cursor = cnx.cursor()
+            sentence = "SELECT Id, Nombre FROM Clientes WHERE Nombre = %s or RFC = %s"
+            #print("ggg")
+            val = (name, RFC)
+            #print("gggg")
+            cursor.execute(sentence, val)
+            #print("ggggg")
+            valores_bd = cursor.fetchone()
+            #print("Cursor",valores_bd, len(valores_bd))
+
+            # En caso de no encontrar registros en ninguna de las BD,
+            # se regresa un Estado falso ante la existencia
+            # del registro y se permite realizarlo
+            if len(valores_bd) != 0:
+                cnx.close()
+                return(True)
+
+        else:
+            cnx.close()
+            return(False)
+    # AUN NO JALA NO SÉ PORQUE, DEPURANDO
+    elif domicilio != None and cliente == None:
+        print("ENTRE!!!!!")
+        #Busqueda de domicilio
+        calle = domicilio[0]; colonia = domicilio[1]
+        estado = domicilio[2]; cp = domicilio[3]
+        for bd in BD:
+            cnx = mysql.connector.connect(user=user,
+            password=password, host=host, database=bd)
+            cursor = cnx.cursor()
+            sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s or Colonia = %s or Estado = %s or CP = %s"
+            print("ggg")
+            val = (calle, colonia, estado, cp)
+            print("gggg")
+            cursor.execute(sentence, val)
+            print("ggggg")
+            valores_bd = cursor.fetchone()
+            print("Cursor",valores_bd, len(valores_bd))
+
+            # En caso de no encontrar registros en ninguna de las BD,
+            # se regresa un Estado falso ante la existencia
+            # del registro y se permite realizarlo
+            if len(valores_bd) != 0:
+                cnx.close()
+                return(True)
+
+        else:
+            cnx.close()
+            return(False)
+
+    else:
+        print("Introduce los datos correctos")
+        return(False)
+
 def DP():
     """
     Procesador de datos (DP)
