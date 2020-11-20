@@ -10,6 +10,7 @@ CREATE TABLE Clientes (Id CHAR(6) PRIMARY KEY,
 
 CREATE TABLE Direcciones(Id char(6) PRIMARY KEY,
     Calle VARCHAR(30) NOT NULL,
+    Numero Varchar(5) NOT NULL,
     Colonia VARCHAR(30) NOT NULL,
     Estado CHAR(4) NOT NULL,
     CP CHAR(5) NOT NULL,

@@ -88,10 +88,10 @@ def add_client(BD):
     Id =  name[0:2].upper()+apellidoP[0:2].upper()+apellidoM[0:2].upper()
 
     # para TP
-    cliente = [name, RFC]
+    client = [name, RFC]
     # Comprobamos que no haya un registro con estos DATOS
     try:
-        status = TP(cliente)
+        status = TP(cliente = client)
         #print("estado!!",status)
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
@@ -124,6 +124,8 @@ def add_address(BD):
     calle = str(input("Calle: "))
     calle = calle.upper()
 
+    numero = str(input("Número: "))
+
     colonia = str(input("Colonia: "))
     colonia = colonia.upper()
 
@@ -133,27 +135,28 @@ def add_address(BD):
     CP = str(input("Código Postal: "))
     idCliente = str(input("Id Cliente: "))
 
-    Id =  estado[0:2]+colonia[0:2]+CP[0:2]
+    Id =  estado[0:2]+colonia[0:2]+CP[0]+numero[0]
     # Para TP
-    domicilio = [calle, colonia, estado, CP]
+    direccione = [calle, colonia, estado, CP]
     # Comprobamos que no haya un registro con estos DATOS
     try:
-        status = TP(domicilio)
-        #print("estado!!",status)
+        print("Estoy aquí")
+        status = TP(domicilio = direccione)
+        print("estado!!")
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
             return(False)
         elif status == False:
             pass
     except:
-        pass
+        print("Algo fallo")
 
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
-        sentence = "INSERT INTO Direcciones(Id, Calle, Colonia, Estado, CP, idCliente) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (Id, calle, colonia, estado, CP, idCliente)
+        sentence = "INSERT INTO Direcciones(Id, Calle, Numero, Colonia, Estado, CP, idCliente) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        val = (Id, calle, numero, colonia, estado, CP, idCliente)
         # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
         # CORROBORAR QUE SEA UN REGISTRO GLOBAL
         cursor.execute(sentence, val)
@@ -173,7 +176,6 @@ def add_address(BD):
 # sino que los registro sean únicos y globales
 #    Procesador de transacciones (TP)
 # - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
-
 def TP(cliente = None, domicilio = None):
     """
     cliente = arreglo compuesto por nombre y RFC del cliente
@@ -181,9 +183,8 @@ def TP(cliente = None, domicilio = None):
     BD = Base de datos en la que se efectuara la consulta
     """
     BD = ["Morelia", "Patzcuaro"]
-    #print(cliente, domicilio)
-    if cliente != None and domicilio == None:
-        #print("ENTREX2")
+
+    if cliente != None:
         #Busqueda de cliente
         name = cliente[0]; RFC = cliente[1]
         for bd in BD:
@@ -191,13 +192,12 @@ def TP(cliente = None, domicilio = None):
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
             sentence = "SELECT Id, Nombre FROM Clientes WHERE Nombre = %s or RFC = %s"
-            #print("ggg")
+
             val = (name, RFC)
-            #print("gggg")
+
             cursor.execute(sentence, val)
-            #print("ggggg")
+
             valores_bd = cursor.fetchone()
-            #print("Cursor",valores_bd, len(valores_bd))
 
             # En caso de no encontrar registros en ninguna de las BD,
             # se regresa un Estado falso ante la existencia
@@ -209,9 +209,10 @@ def TP(cliente = None, domicilio = None):
         else:
             cnx.close()
             return(False)
+
     # AUN NO JALA NO SÉ PORQUE, DEPURANDO
-    elif domicilio != None and cliente == None:
-        print("ENTRE!!!!!")
+    elif domicilio != None:
+
         #Busqueda de domicilio
         calle = domicilio[0]; colonia = domicilio[1]
         estado = domicilio[2]; cp = domicilio[3]
@@ -220,13 +221,12 @@ def TP(cliente = None, domicilio = None):
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
             sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s or Colonia = %s or Estado = %s or CP = %s"
-            print("ggg")
+
             val = (calle, colonia, estado, cp)
-            print("gggg")
+
             cursor.execute(sentence, val)
-            print("ggggg")
+
             valores_bd = cursor.fetchone()
-            print("Cursor",valores_bd, len(valores_bd))
 
             # En caso de no encontrar registros en ninguna de las BD,
             # se regresa un Estado falso ante la existencia
