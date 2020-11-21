@@ -172,7 +172,7 @@ def add_address(BD):
 # Búsqueda por: nombre, RFC o domicilio
 def search_client(BD):
     try:
-        opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n\nIntroduce un número: "))
+        opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n4) Listar todos los clientes\n\nIntroduce un número: "))
         if opt == 1:
             try:
                 cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
@@ -228,6 +228,23 @@ def search_client(BD):
                 val = (id_cliente,)
                 cursor.execute(sentence, val)
                 valores_bd = cursor.fetchone()
+                if len(valores_bd) != 0:
+                    cnx.close()
+                    return(valores_bd)
+                else:
+                    #print("No existe un cliente con esos datos")
+                    return(False)
+            except:
+                print("Algo a fallado en la búsqueda")
+                return (False)
+
+        elif opt == 4:
+            try:
+                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+
+                cursor = cnx.cursor()
+                cursor.execute("SELECT * FROM Clientes;")
+                valores_bd = cursor.fetchall()
                 if len(valores_bd) != 0:
                     cnx.close()
                     return(valores_bd)

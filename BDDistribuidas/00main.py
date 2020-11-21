@@ -68,12 +68,15 @@ while programa:
 
             #5) Buscar cliente
             elif opcion == 5:
-                pass
                 result = functions.search_client(BD)
                 if result == False:
                     print("No existe un cliente con esos datos")
                 else:
-                    print(f"\nDatos del cliente: {result}")
+                    if len(result)>5:
+                        for values in result:
+                            print(f"Datos del cliente: {values}")
+                    else:
+                        print(f"Datos del cliente: {result}")
 
             #6) Listar clientes
             elif opcion == 6:
