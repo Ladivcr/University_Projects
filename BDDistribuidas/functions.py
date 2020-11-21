@@ -169,6 +169,80 @@ def add_address(BD):
 #3) Actualizar cliente
 #4) Actualizar dirección
 #5) Buscar clientes
+# Búsqueda por: nombre, RFC o domicilio
+def search_client(BD):
+    try:
+        opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n\nIntroduce un número: "))
+        if opt == 1:
+            try:
+                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+
+                name = str(input("Introduce el nombre del cliente: "))
+                cursor = cnx.cursor()
+                sentence = "SELECT * FROM Clientes WHERE Nombre = %s;"
+                val = (name,)
+                cursor.execute(sentence, val)
+                valores_bd = cursor.fetchone()
+                if len(valores_bd) != 0:
+                    cnx.close()
+                    return(valores_bd)
+                else:
+                    #print("No existe un cliente con esos datos")
+                    return(False)
+            except:
+                print("Algo a fallado en la búsqueda")
+                return (False)
+
+        elif opt == 2:
+            try:
+                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+
+                rfc = str(input("Introduce el RFC del cliente: "))
+                cursor = cnx.cursor()
+                sentence = "SELECT * FROM Clientes WHERE RFC = %s;"
+                val = (rfc,)
+                cursor.execute(sentence, val)
+                valores_bd = cursor.fetchone()
+                if len(valores_bd) != 0:
+                    cnx.close()
+                    return(valores_bd)
+                else:
+                    #print("No existe un cliente con esos datos")
+                    return(False)
+            except:
+                print("Algo a fallado en la búsqueda")
+                return (False)
+
+        elif opt == 3:
+            try:
+                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+
+                addre = str(input("Introduce el ID de la dirección del del cliente: "))
+                cursor = cnx.cursor()
+                sentence = "SELECT idCliente FROM Direcciones WHERE Id = %s;"
+                val = (addre,)
+                cursor.execute(sentence, val)
+                valores_bd = cursor.fetchone()
+                id_cliente = valores_bd[0]
+                sentence = "SELECT * FROM Clientes WHERE Id = %s;"
+                val = (id_cliente,)
+                cursor.execute(sentence, val)
+                valores_bd = cursor.fetchone()
+                if len(valores_bd) != 0:
+                    cnx.close()
+                    return(valores_bd)
+                else:
+                    #print("No existe un cliente con esos datos")
+                    return(False)
+            except:
+                print("Algo a fallado en la búsqueda")
+                return (False)
+
+    except:
+        print("Se requiere un número")
+
+
+
 #6) Listar clientes
 #7) Listar clientes totales
 

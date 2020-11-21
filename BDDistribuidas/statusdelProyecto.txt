@@ -19,4 +19,4 @@ transacciones (TP) y que:
   c. Permita actualizar datos de los cliente y direcciones.
 
   d. Permita hacer búsquedas de clientes por nombre, RFC o domicilio desde
-  cualquiera de las sucursales, con opción a listar todos los clientes.
+  cualquiera de las sucursales, con opción a listar todos los clientes. LISTO

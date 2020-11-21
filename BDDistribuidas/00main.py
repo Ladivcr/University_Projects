@@ -59,27 +59,31 @@ while programa:
             #3) Actualizar cliente
             elif opcion == 3:
                 pass
-                status = update_client()
+                #status = update_client()
 
             #4) Actualizar dirección
             elif opcion == 4:
                 pass
-                status = update_address()
+                #status = update_address()
 
             #5) Buscar cliente
             elif opcion == 5:
                 pass
-                result = search_client()
+                result = functions.search_client(BD)
+                if result == False:
+                    print("No existe un cliente con esos datos")
+                else:
+                    print(f"\nDatos del cliente: {result}")
 
             #6) Listar clientes
             elif opcion == 6:
                 pass
-                result = list_clients()
+                #result = list_clients()
 
             #7) Listar clientes totales
             elif option == 7:
                 pass
-                result = list_total_clients()
+                #result = list_total_clients()
 
         elif status == False:
             print("Algo fallo en la conexión a Morelia, contacta al admin.")
