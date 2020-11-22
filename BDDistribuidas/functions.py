@@ -19,45 +19,28 @@ tables = cursor.fetchall()
 import mysql.connector
 from mysql.connector import errorcode
 import json
-# Carga de las credenciales
-with open("credentialsDBMorelia.json") as file:
+
+#nameDB = credentials["credentials"][0]["database"]
+# Carga de las credenciales de manera global para todas las funciones
+with open("credentials.json") as file:
     credentials = json.load(file)
 
+datosconnect = credentials["credentials"][0]
 # Seleccionamos las credenciales
+user = datosconnect["user"]
+password = datosconnect["password"]
+host = datosconnect["host"]
 
-user = credentials["credentials"]["user"]
-password = credentials["credentials"]["password"]
-host = credentials["credentials"]["host"]
-#nameDB = credentials["credentials"][0]["database"]
-
-
-def conexionMorelia(DB):
+def conexion(BD):
     # Hacemos la conexión
     try:
-        cnx = mysql.connector.connect(user=user,
-                password=password,
-                host=host)
-
-        cursor = cnx.cursor()
-        cursor.execute(f"USE {DB} ")
-        print("Conexión a Morelia exitosa...\n")
+        cnx = mysql.connector.connect(user=user, password=password,
+        host=host, database=BD)
+        print(f"Conexión a {BD} exitosa...\n")
         return(True)
     except:
         return(False)
 
-def conexionPatzcuaro(DB):
-    # Hacemos la conexión
-    try:
-        cnx = mysql.connector.connect(user = user,
-                password = password,
-                host = host)
-
-        cursor = cnx.cursor()
-        cursor.execute(f"USE {DB} ")
-        print("Conexión a Pátzcuaro exitosa...\n")
-        return(True)
-    except:
-        return(False)
 
 
 # OPERACIONES A REALIZAR EN LA BASE DE DATOS
@@ -78,28 +61,29 @@ def add_client(BD):
     "T":20, "U":21, "V":22, "W":23, "X":24, "Y":25, "Z":26}
     print("\tIntroduce los siguientes datos para añadir el cliente\n")
     name = str(input("Nombre: "))
-    #name = name.upper()
+
     apellidoP = str(input("Apellido Paterno: "))
-    #apellidoP = apellidoP.upper()
+
     apellidoM = str(input("Apellido Materno: "))
-    #apellidoM = apellidoM.upper()
+
     homoclave = apellidoP[2:3].upper()+apellidoM[1:3].upper()+str(aux[name[-1].upper()])+str(aux[apellidoP[-1].upper()])
     RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+homoclave
-    Id =  name[0:2].upper()+apellidoP[0:2].upper()+apellidoM[0:2].upper()
+    Id =  name[0:2]+apellidoP[0:2].upper()+apellidoM[0:2].upper()
 
+    print("TEMPO1")
     # para TP
-    client = [name, RFC]
+    client = [RFC]
     # Comprobamos que no haya un registro con estos DATOS
     try:
+
         status = TP(cliente = client)
-        #print("estado!!",status)
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
             return(False)
         elif status == False:
             pass
     except:
-        pass
+        print("Algo a fallado en TP")
 
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
@@ -121,16 +105,13 @@ def add_client(BD):
 #2) Registrar nueva dirección
 def add_address(BD):
     print("\tIntroduce los siguientes datos para añadir la dirección\n")
-    calle = str(input("Calle: "))
-    calle = calle.upper()
+    calle = str(input("Calle: ")); calle = calle.upper()
 
     numero = str(input("Número: "))
 
-    colonia = str(input("Colonia: "))
-    colonia = colonia.upper()
+    colonia = str(input("Colonia: ")); colonia = colonia.upper()
 
-    estado = str(input("Estado (abreviado): "))
-    estado = estado.upper()
+    estado = str(input("Estado (abreviado): ")); estado = estado.upper()
 
     CP = str(input("Código Postal: "))
     idCliente = str(input("Id Cliente: "))
@@ -149,7 +130,7 @@ def add_address(BD):
         elif status == False:
             pass
     except:
-        print("Algo fallo")
+        print("Algo fallo en TP")
 
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
@@ -170,22 +151,25 @@ def add_address(BD):
 #4) Actualizar dirección
 #5) Buscar clientes
 # Búsqueda por: nombre, RFC o domicilio
-def search_client(BD):
+def search_client(BDS):
+    tmp_bufer = []
     try:
-        opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n4) Listar todos los clientes\n\nIntroduce un número: "))
+        opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n\nIntroduce un número: "))
         if opt == 1:
             try:
-                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
-
                 name = str(input("Introduce el nombre del cliente: "))
-                cursor = cnx.cursor()
-                sentence = "SELECT * FROM Clientes WHERE Nombre = %s;"
-                val = (name,)
-                cursor.execute(sentence, val)
-                valores_bd = cursor.fetchone()
-                if len(valores_bd) != 0:
+                for BD in BDS:
+                    cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+                    cursor = cnx.cursor()
+                    sentence = "SELECT * FROM Clientes WHERE Nombre = %s;"
+                    val = (name,)
+                    cursor.execute(sentence, val)
+                    values = cursor.fetchall()
+                    tmp_bufer.append(values)
+
+                if len(tmp_bufer) != 0:
                     cnx.close()
-                    return(valores_bd)
+                    return(tmp_bufer)
                 else:
                     #print("No existe un cliente con esos datos")
                     return(False)
@@ -238,22 +222,6 @@ def search_client(BD):
                 print("Algo a fallado en la búsqueda")
                 return (False)
 
-        elif opt == 4:
-            try:
-                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
-
-                cursor = cnx.cursor()
-                cursor.execute("SELECT * FROM Clientes;")
-                valores_bd = cursor.fetchall()
-                if len(valores_bd) != 0:
-                    cnx.close()
-                    return(valores_bd)
-                else:
-                    #print("No existe un cliente con esos datos")
-                    return(False)
-            except:
-                print("Algo a fallado en la búsqueda")
-                return (False)
 
     except:
         print("Se requiere un número")
@@ -278,25 +246,25 @@ def TP(cliente = None, domicilio = None):
 
     if cliente != None:
         #Busqueda de cliente
-        name = cliente[0]; RFC = cliente[1]
+        RFC = cliente[0]
+        #print(RFC)
+        tmp_bufer = []
         for bd in BD:
             cnx = mysql.connector.connect(user=user,
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
-            sentence = "SELECT Id, Nombre FROM Clientes WHERE Nombre = %s or RFC = %s"
-
-            val = (name, RFC)
-
+            sentence = "SELECT Id, Nombre FROM Clientes WHERE RFC = %s"
+            val = (RFC, )
             cursor.execute(sentence, val)
+            values = cursor.fetchall()
+            tmp_bufer.append(values)
 
-            valores_bd = cursor.fetchone()
-
-            # En caso de no encontrar registros en ninguna de las BD,
-            # se regresa un Estado falso ante la existencia
-            # del registro y se permite realizarlo
-            if len(valores_bd) != 0:
-                cnx.close()
-                return(True)
+        # En caso de no encontrar registros en ninguna de las BD,
+        # se regresa un Estado falso ante la existencia
+        # del registro y se permite realizarlo
+        if len(tmp_bufer) != 0:
+            cnx.close()
+            return(True)
 
         else:
             cnx.close()
@@ -308,24 +276,24 @@ def TP(cliente = None, domicilio = None):
         #Busqueda de domicilio
         calle = domicilio[0]; colonia = domicilio[1]
         estado = domicilio[2]; cp = domicilio[3]
+        tmp_bufer = []
         for bd in BD:
             cnx = mysql.connector.connect(user=user,
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
             sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s or Colonia = %s or Estado = %s or CP = %s"
 
-            val = (calle, colonia, estado, cp)
-
+            val = (calle, colonia, estado, cp, )
             cursor.execute(sentence, val)
+            values = cursor.fetchone()
+            tmp_bufer.append(values)
 
-            valores_bd = cursor.fetchone()
-
-            # En caso de no encontrar registros en ninguna de las BD,
-            # se regresa un Estado falso ante la existencia
-            # del registro y se permite realizarlo
-            if len(valores_bd) != 0:
-                cnx.close()
-                return(True)
+        # En caso de no encontrar registros en ninguna de las BD,
+        # se regresa un Estado falso ante la existencia
+        # del registro y se permite realizarlo
+        if len(tmp_bufer) != 0:
+            cnx.close()
+            return(True)
 
         else:
             cnx.close()
