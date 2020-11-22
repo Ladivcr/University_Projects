@@ -47,35 +47,44 @@ def conexion(BD):
 
 #1) Registras nuevo cliente
 def add_client(BD):
-    from datetime import datetime
-    from random import choice
-    date = str(datetime.now())
-
-    #aux = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
-    #He eliminado la aleatoriedad en la homoclave para tener un
-    #mejor control, así mimso el mes y el día
-    #homoclave = choice(aux)+choice(aux)+choice(aux)
-    año = date[2:4] #mes = date[5:7]; dia = date[8:10]
-    aux = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8, "J":9,
-    "K":10, "L":11, "M":12, "N":13, "O":14, "P":16, "Q":17, "R":18, "S":19,
-    "T":20, "U":21, "V":22, "W":23, "X":24, "Y":25, "Z":26}
     print("\tIntroduce los siguientes datos para añadir el cliente\n")
-    name = str(input("Nombre: "))
+    name = str(input("Nombre: ")); name = name.capitalize()
+    apellidoP = str(input("Apellido Paterno: ")); apellidoP = apellidoP.capitalize()
+    tmp_AP = apellidoP
+    apellidoM = str(input("Apellido Materno: ")); apellidoM = apellidoM.capitalize()
+    tmp_AM = apellidoM
+    año = str(input("Introduce el AÑO de nacimiento (formato YYYY): "))
+    mes = str(input("Introduce el MES de nacimiento (formato MM): "))
+    dia = str(input("Introduce el DIA de nacimiento (formato DD): "))
+    fechaN = f"{año}-{mes}-{dia}"
+    # PARA FORMAR EL RFC nos basamos en: http://cec.cele.unam.mx/include/howToRFC.php
+    # Así mismo, programamos algunas excepciones, no todas debido a que eran algo complejas
+    # NO HEMOS INCLUIDO LA HOMOCLAVE debido a que el algoritmo es privado y si
+    # lo haciamos pseudoaleatorio, corriamos el riesgo de duplicación
+    # SOME RULE FOR MAKE RFC
+    if apellidoM[0] == "Ñ":
+         tmp_AM = apellidoM.replace("Ñ", "X", 1)
+    if apellidoP[0] == "Ñ":
+         tmp_AP = apellidoP.replace("Ñ", "X", 1)
 
-    apellidoP = str(input("Apellido Paterno: "))
+    vocal = [i for i in name if i == "a" or i == "e" or i == "i" or i == "o" or i == "u"]
 
-    apellidoM = str(input("Apellido Materno: "))
+    if tmp_AM[0] == "X" and tmp_AP[0] == "X":
+        RFC = tmp_AP[0].upper()+vocal[0].upper()+tmp_AM[0].upper()+name[0].upper()+año+mes+dia
+    elif tmp_AM[0] == "X" and tmp_AP[0] != "X":
+        RFC = apellidoP[0].upper()+vocal[0].upper()+tmp_AM[0].upper()+name[0].upper()+año+mes+dia
+    elif tmp_AM[0] != "X" and tmp_AP[0] == "X":
+        RFC = tmp_AP[0].upper()+vocal[0].upper()+apellidoM[0].upper()+name[0].upper()+año+mes+dia
+    else:
+        RFC = apellidoP[0].upper()+vocal[0].upper()+apellidoM[0].upper()+name[0].upper()+año+mes+dia
 
-    homoclave = apellidoP[2:3].upper()+apellidoM[1:3].upper()+str(aux[name[-1].upper()])+str(aux[apellidoP[-1].upper()])
-    RFC = apellidoP[0].upper()+apellidoP[1].upper()+apellidoM[0].upper()+name[0].upper()+año+homoclave
-    Id =  name[0:2]+apellidoP[0:2].upper()+apellidoM[0:2].upper()
 
-    print("TEMPO1")
     # para TP
     client = [RFC]
     # Comprobamos que no haya un registro con estos DATOS
     try:
-
+        # ANTES DE INSERTAR DEBEMOS LLAMAR LA FUNCIÓN TP PARA
+        # CORROBORAR QUE SEA UN REGISTRO GLOBAL Y ÚNICO EN EL SISTEMA
         status = TP(cliente = client)
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
@@ -89,10 +98,8 @@ def add_client(BD):
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
-        sentence = "INSERT INTO Clientes(Id, Nombre, ApellidoP, ApellidoM, RFC) VALUES (%s, %s, %s, %s, %s)"
-        val = (Id, name, apellidoP, apellidoM, RFC)
-        # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
-        # CORROBORAR QUE SEA UN REGISTRO GLOBAL
+        sentence = "INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC) VALUES (%s, %s, %s, %s, %s)"
+        val = (name, apellidoP, apellidoM, fechaN, RFC, )
         cursor.execute(sentence, val)
         cursor.close()
         cnx.commit()
@@ -105,25 +112,23 @@ def add_client(BD):
 #2) Registrar nueva dirección
 def add_address(BD):
     print("\tIntroduce los siguientes datos para añadir la dirección\n")
-    calle = str(input("Calle: ")); calle = calle.upper()
-
-    numero = str(input("Número: "))
-
-    colonia = str(input("Colonia: ")); colonia = colonia.upper()
-
-    estado = str(input("Estado (abreviado): ")); estado = estado.upper()
-
-    CP = str(input("Código Postal: "))
-    idCliente = str(input("Id Cliente: "))
-
-    Id =  estado[0:2]+colonia[0:2]+CP[0]+numero[0]
+    try:
+        calle = str(input("Calle: ")); calle = calle.capitalize()
+        numero = int(input("Número de casa: "))
+        colonia = str(input("Colonia: ")); colonia = colonia.capitalize()
+        estado = str(input("Estado: ")); estado = estado.capitalize()
+        CP = str(input("Código Postal: "))
+        rfc = str(input("RFC del Cliente: "))
+    except:
+        print("Algo hiciste mal, introduce los datos de nuevo")
     # Para TP
-    direccione = [calle, colonia, estado, CP]
+    direccion = [calle, numero, colonia, estado, CP, rfc]
     # Comprobamos que no haya un registro con estos DATOS
     try:
-        print("Estoy aquí")
-        status = TP(domicilio = direccione)
-        print("estado!!")
+        # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
+        # CORROBORAR QUE SEA UN REGISTRO GLOBAL
+        status = TP(domicilio = direccion)
+        print(f"estado!! {status}")
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
             return(False)
@@ -136,10 +141,9 @@ def add_address(BD):
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
-        sentence = "INSERT INTO Direcciones(Id, Calle, Numero, Colonia, Estado, CP, idCliente) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        val = (Id, calle, numero, colonia, estado, CP, idCliente)
-        # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
-        # CORROBORAR QUE SEA UN REGISTRO GLOBAL
+        sentence = "INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (calle, numero, colonia, estado, CP, rfc)
+
         cursor.execute(sentence, val)
         cursor.close()
         cnx.commit()
@@ -250,14 +254,19 @@ def TP(cliente = None, domicilio = None):
         #print(RFC)
         tmp_bufer = []
         for bd in BD:
+
             cnx = mysql.connector.connect(user=user,
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
-            sentence = "SELECT Id, Nombre FROM Clientes WHERE RFC = %s"
+            sentence = "SELECT Nombre, RFC FROM Clientes WHERE RFC = %s"
             val = (RFC, )
             cursor.execute(sentence, val)
             values = cursor.fetchall()
-            tmp_bufer.append(values)
+
+            if len(values) != 0:
+                tmp_bufer.append(values)
+            else:
+                pass
 
         # En caso de no encontrar registros en ninguna de las BD,
         # se regresa un Estado falso ante la existencia
@@ -274,19 +283,29 @@ def TP(cliente = None, domicilio = None):
     elif domicilio != None:
 
         #Busqueda de domicilio
-        calle = domicilio[0]; colonia = domicilio[1]
-        estado = domicilio[2]; cp = domicilio[3]
+        #domicilio = [calle, numero, colonia, estado, CP, rfc]
+        calle = domicilio[0]; numero = domicilio[1]; colonia = domicilio[2]
+        estado = domicilio[3]; cp = domicilio[4]; rfc = domicilio[5]
         tmp_bufer = []
         for bd in BD:
             cnx = mysql.connector.connect(user=user,
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
-            sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s or Colonia = %s or Estado = %s or CP = %s"
 
-            val = (calle, colonia, estado, cp, )
+            #sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s and Numero = %s and Colonia = %s and Estado = %s and CP = %s and RFC = %s"
+            #val = (calle, numero, colonia, estado, cp, rfc, )
+            # Dado que no queremos tener clientes con multiples cuentas
+            # Lo que vamos a verificar es la existencia de su RFC en
+            # las direcciones
+            sentence = "SELECT Id, Calle FROM Direcciones WHERE RFC = %s"
+            val = (rfc, )
             cursor.execute(sentence, val)
-            values = cursor.fetchone()
-            tmp_bufer.append(values)
+            values = cursor.fetchall()
+
+            if len(values) != 0:
+                tmp_bufer.append(values)
+            else:
+                pass
 
         # En caso de no encontrar registros en ninguna de las BD,
         # se regresa un Estado falso ante la existencia
@@ -299,7 +318,7 @@ def TP(cliente = None, domicilio = None):
             cnx.close()
             return(False)
     else:
-        print("Introduce los datos correctos")
+        print("Error en los datos esperados")
         return(False)
 
 def DP():
