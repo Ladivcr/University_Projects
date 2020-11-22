@@ -13,7 +13,7 @@ def acciones():
     print("5) Buscar cliente\n6) Listar clientes\n7) Listar clientes totales")
     try:
         option = int(input("\nIntroduce un número: "))
-        if option < 1 or option > 7:
+        if 1 > option or option > 7:
             print("La opción no existe\n")
         else:
             return(option)
@@ -21,8 +21,7 @@ def acciones():
         print("Te he pedido un número")
 
 
-programa = True
-while programa:
+while(True):
     try:
         #ELECCION DE UBICACIÓN POR PARTE DEL USUARIO
         print("\nElige tu ubicación introduciendo un número\n")
@@ -33,11 +32,11 @@ while programa:
     # CONEXION A Morelia DADA LA UBICACION ELEGIDA
     if opt == 1:
         BD = "Morelia"
-        status = functions.conexionMorelia(BD) # Comprobamos que se pueda hacer la conexión
+        status = functions.conexionMorelia(BD)  # Comprobamos que se pueda hacer la conexión
         if status == True:
             BD = "Morelia"
             opcion = acciones()
-            #1) Registras nuevo cliente
+            # 1) Registras nuevo cliente
             if opcion == 1:
                 status = functions.add_client(BD)
                 if status == True:
@@ -84,7 +83,7 @@ while programa:
                 #result = list_clients()
 
             #7) Listar clientes totales
-            elif option == 7:
+        elif opcion == 7:
                 pass
                 #result = list_total_clients()
 
@@ -103,10 +102,9 @@ while programa:
         elif status == False:
             print("Algo fallo en la conexión a Pátzcuaro, contacta al admin.")
 
-
     # Salir
     elif opt == 3:
         print("Hasta luego...")
-        programa = False
+        break
     else:
         print("Esa opción no existe")

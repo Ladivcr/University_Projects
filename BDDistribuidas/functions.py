@@ -25,13 +25,13 @@ with open("credentialsDBMorelia.json") as file:
 
 # Seleccionamos las credenciales
 
-user = credentials["credentials"][0]["user"]
-password = credentials["credentials"][0]["password"]
-host = credentials["credentials"][0]["host"]
+user = credentials["credentials"]["user"]
+password = credentials["credentials"]["password"]
+host = credentials["credentials"]["host"]
 #nameDB = credentials["credentials"][0]["database"]
 
 
-def conexionMorelia(BD):
+def conexionMorelia(DB):
     # Hacemos la conexión
     try:
         cnx = mysql.connector.connect(user=user,
@@ -39,21 +39,21 @@ def conexionMorelia(BD):
                 host=host)
 
         cursor = cnx.cursor()
-        cursor.execute(f"USE {BD}")
+        cursor.execute(f"USE {DB} ")
         print("Conexión a Morelia exitosa...\n")
         return(True)
     except:
         return(False)
 
-def conexionPatzcuaro():
+def conexionPatzcuaro(DB):
     # Hacemos la conexión
     try:
-        cnx = mysql.connector.connect(user=user,
-                password=password,
-                host=host)
+        cnx = mysql.connector.connect(user = user,
+                password = password,
+                host = host)
 
         cursor = cnx.cursor()
-        cursor.execute(f"USE {BD}")
+        cursor.execute(f"USE {DB} ")
         print("Conexión a Pátzcuaro exitosa...\n")
         return(True)
     except:
@@ -175,7 +175,7 @@ def search_client(BD):
         opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n4) Listar todos los clientes\n\nIntroduce un número: "))
         if opt == 1:
             try:
-                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
 
                 name = str(input("Introduce el nombre del cliente: "))
                 cursor = cnx.cursor()
@@ -195,7 +195,7 @@ def search_client(BD):
 
         elif opt == 2:
             try:
-                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
 
                 rfc = str(input("Introduce el RFC del cliente: "))
                 cursor = cnx.cursor()
@@ -215,7 +215,7 @@ def search_client(BD):
 
         elif opt == 3:
             try:
-                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
 
                 addre = str(input("Introduce el ID de la dirección del del cliente: "))
                 cursor = cnx.cursor()
@@ -240,7 +240,7 @@ def search_client(BD):
 
         elif opt == 4:
             try:
-                cnx = mysql.connector.connect(user=user,password=password, host=host, database=BD)
+                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
 
                 cursor = cnx.cursor()
                 cursor.execute("SELECT * FROM Clientes;")
@@ -260,13 +260,14 @@ def search_client(BD):
 
 
 
-#6) Listar clientes
-#7) Listar clientes totales
+# 6) Listar clientes
+# 7) Listar clientes totales
 
 # TP nos ayudara a evaluar que no haya registros duplicados en la BD
 # sino que los registro sean únicos y globales
 #    Procesador de transacciones (TP)
 # - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
+
 def TP(cliente = None, domicilio = None):
     """
     cliente = arreglo compuesto por nombre y RFC del cliente
@@ -329,7 +330,6 @@ def TP(cliente = None, domicilio = None):
         else:
             cnx.close()
             return(False)
-
     else:
         print("Introduce los datos correctos")
         return(False)
@@ -343,6 +343,7 @@ def DP():
     - Puede que sea un dbms local
     """
     pass
+
 
 """
 #Componentes de un DDBMS TP y DP
