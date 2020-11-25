@@ -47,6 +47,7 @@ def conexion(BD):
 
 #1) Registras nuevo cliente
 def add_client(BD):
+    print("\t ########## AÑADIR CLIENTE ##########")
     print("\tIntroduce los siguientes datos para añadir el cliente\n")
     name = str(input("Nombre: ")); name = name.capitalize()
     apellidoP = str(input("Apellido Paterno: ")); apellidoP = apellidoP.capitalize()
@@ -85,7 +86,7 @@ def add_client(BD):
     try:
         # ANTES DE INSERTAR DEBEMOS LLAMAR LA FUNCIÓN TP PARA
         # CORROBORAR QUE SEA UN REGISTRO GLOBAL Y ÚNICO EN EL SISTEMA
-        status = TP(cliente = client)
+        status = TP(datos = client, data_type = "Cliente")
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
             return(False)
@@ -111,6 +112,7 @@ def add_client(BD):
 
 #2) Registrar nueva dirección
 def add_address(BD):
+    print("\t ########## AÑADIR DIRECCIÓN ##########")
     print("\tIntroduce los siguientes datos para añadir la dirección\n")
     try:
         calle = str(input("Calle: ")); calle = calle.capitalize()
@@ -127,7 +129,7 @@ def add_address(BD):
     try:
         # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
         # CORROBORAR QUE SEA UN REGISTRO GLOBAL
-        status = TP(domicilio = direccion)
+        status = TP(datos = direccion, data_type="Domicilio")
         print(f"estado!! {status}")
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
@@ -153,79 +155,67 @@ def add_address(BD):
         return (False)
 #3) Actualizar cliente
 #4) Actualizar dirección
+
+
 #5) Buscar clientes
 # Búsqueda por: nombre, RFC o domicilio
 def search_client(BDS):
-    tmp_bufer = []
+    print("\t ########## BÚSQUEDA DE CLIENTE ##########")
     try:
         opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n\nIntroduce un número: "))
+        
         if opt == 1:
-            try:
-                name = str(input("Introduce el nombre del cliente: "))
-                for BD in BDS:
-                    cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
-                    cursor = cnx.cursor()
-                    sentence = "SELECT * FROM Clientes WHERE Nombre = %s;"
-                    val = (name,)
-                    cursor.execute(sentence, val)
-                    values = cursor.fetchall()
-                    tmp_bufer.append(values)
 
-                if len(tmp_bufer) != 0:
-                    cnx.close()
-                    return(tmp_bufer)
-                else:
-                    #print("No existe un cliente con esos datos")
-                    return(False)
-            except:
-                print("Algo a fallado en la búsqueda")
-                return (False)
-
+            name = str(input("Introduce el nombre del cliente: ")).split(" ")
+            if len(name) > 1:
+                if len(name) == 2:
+                    nombre = name[0].capitalize(); apeP = name[1].capitalize(); apeM = ""
+                    sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%" AND (ApellidoP LIKE %s"%" OR ApellidoM LIKE %s"%");'
+                    val = (nombre, apeP, apeM, )
+                elif len(name) == 3:
+                    nombre = name[0].capitalize(); apeP = name[1].capitalize(); apeM = name[2].capitalize()
+                    sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%" AND ApellidoP LIKE %s"%" AND ApellidoM LIKE %s"%";'
+                    val = (nombre, apeP, apeM, )
+            else:
+                name = name[0].capitalize()
+                sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%";'
+                val = (name, ) 
         elif opt == 2:
-            try:
-                cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
 
-                rfc = str(input("Introduce el RFC del cliente: "))
-                cursor = cnx.cursor()
-                sentence = "SELECT * FROM Clientes WHERE RFC = %s;"
-                val = (rfc,)
-                cursor.execute(sentence, val)
-                valores_bd = cursor.fetchone()
-                if len(valores_bd) != 0:
-                    cnx.close()
-                    return(valores_bd)
-                else:
-                    #print("No existe un cliente con esos datos")
-                    return(False)
-            except:
-                print("Algo a fallado en la búsqueda")
-                return (False)
+            rfc = str(input("Introduce el RFC del cliente: "))
+            sentence = 'SELECT * FROM Clientes WHERE RFC LIKE %s"%";'
+            val = (rfc, )
 
+            #print(sentence, val)
         elif opt == 3:
-            try:
+            pass
+        
+        tmp_bufer = []
+        #print("Tia")
+        try:
+            #print(sentence, val)
+            for BD in BDS:
                 cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
-
-                addre = str(input("Introduce el ID de la dirección del del cliente: "))
                 cursor = cnx.cursor()
-                sentence = "SELECT idCliente FROM Direcciones WHERE Id = %s;"
-                val = (addre,)
+                #sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%" ;'
+                #val = (name,)
                 cursor.execute(sentence, val)
-                valores_bd = cursor.fetchone()
-                id_cliente = valores_bd[0]
-                sentence = "SELECT * FROM Clientes WHERE Id = %s;"
-                val = (id_cliente,)
-                cursor.execute(sentence, val)
-                valores_bd = cursor.fetchone()
-                if len(valores_bd) != 0:
-                    cnx.close()
-                    return(valores_bd)
+                values = cursor.fetchall()
+                #print(type(values),values)
+                if len(values) != 0:
+                    tmp_bufer.append(values)
                 else:
-                    #print("No existe un cliente con esos datos")
-                    return(False)
-            except:
-                print("Algo a fallado en la búsqueda")
-                return (False)
+                    pass
 
+            if len(tmp_bufer) != 0:
+                cnx.close()
+                return(tmp_bufer)
+            else:
+                #print("No existe un cliente con esos datos")
+                return(False)
+        except:
+            print("Algo a fallado en la búsqueda")
+            return (False)
 
     except:
         print("Se requiere un número")
@@ -240,14 +230,40 @@ def search_client(BDS):
 #    Procesador de transacciones (TP)
 # - Recibe y procesa las solicitudes de datos de la aplicación (remota y local)
 
-def TP(cliente = None, domicilio = None):
+def TP(datos, data_type):
     """
-    cliente = arreglo compuesto por nombre y RFC del cliente
-    domicilio = arreglo compuesto por calle, colonia, estado y CP
-    BD = Base de datos en la que se efectuara la consulta
+    datos = arreglo compuesto por los datos para hacer la revisión
+    data_type = tipo de revisión que se realizara
+    """
+    if data_type == "Cliente":
+        #Busqueda de cliente
+        status = DP(cliente = datos)
+        if status != 0:
+            return(True)
+        elif status == 0:
+            return(False)
+        else:
+            return(False)
+
+    elif data_type == "Domicilio":
+        #Busqueda de domicilio
+        status = DP(domicilio = datos)
+        if status != 0:
+            return(True)
+        elif status == 0:
+            return(False)
+        else:
+            return(False)
+
+
+#Procesador de datos (DP)
+# Guarda y recupera datos localizados en el sitio
+def DP(cliente = None, domicilio = None):
+    """
+    cliente = Datos del cliente para hacer la revisión de existencia
+    domicilio = Datos de la dirección para hacer la revisión de existencia
     """
     BD = ["Morelia", "Patzcuaro"]
-
     if cliente != None:
         #Busqueda de cliente
         RFC = cliente[0]
@@ -273,13 +289,12 @@ def TP(cliente = None, domicilio = None):
         # del registro y se permite realizarlo
         if len(tmp_bufer) != 0:
             cnx.close()
-            return(True)
+            return(len(tmp_bufer))
 
-        else:
+        elif len(tmp_bufer) == 0 or len(tmp_bufer) < 0:
             cnx.close()
-            return(False)
+            return(0)
 
-    # AUN NO JALA NO SÉ PORQUE, DEPURANDO
     elif domicilio != None:
 
         #Busqueda de domicilio
@@ -292,8 +307,6 @@ def TP(cliente = None, domicilio = None):
             password=password, host=host, database=bd)
             cursor = cnx.cursor()
 
-            #sentence = "SELECT Id, Calle FROM Direcciones WHERE Calle = %s and Numero = %s and Colonia = %s and Estado = %s and CP = %s and RFC = %s"
-            #val = (calle, numero, colonia, estado, cp, rfc, )
             # Dado que no queremos tener clientes con multiples cuentas
             # Lo que vamos a verificar es la existencia de su RFC en
             # las direcciones
@@ -312,44 +325,12 @@ def TP(cliente = None, domicilio = None):
         # del registro y se permite realizarlo
         if len(tmp_bufer) != 0:
             cnx.close()
-            return(True)
+            return(len(tmp_bufer))
 
-        else:
+        elif len(tmp_bufer) == 0 or len(tmp_bufer) < 0:
             cnx.close()
-            return(False)
+            return(0)
     else:
         print("Error en los datos esperados")
         return(False)
 
-def DP():
-    """
-    Procesador de datos (DP)
-    Guarda y recupera datos localizados en el sitio
-    - Es un componente de software que reside en cada computadora
-    o equipo
-    - Puede que sea un dbms local
-    """
-    pass
-
-
-"""
-#Componentes de un DDBMS TP y DP
-- La comunicación entre los TP y los DP
-es posible mediante protocolos, usados por el DDBMS
-- Los DP y los TP se pueden agregar al sistema sin
-afectar la operación de los otros componentes.
-- Un TP y un DP pueden residir en la misma computadora,
-permitiendo al usuario final tener acceso transparente a datos
-locales y remotos.
-
-#Protocolos entre TP y DP
-Los protocolos determinan la forma en que el sistema
-de bdd trabaja:
-- Se entrelazan con la red para transportar datos y comandos
-entre procesadores de datos (DP) y (TP)
-- Sincroniza todos los datos recibidos de las DP
-(lado de TP) y enruta los datos recuperados a los TP
-apropiados (lado de DP)
-- Asegura funciones de base de datos comunes en
-un sistema distribuido.
-"""

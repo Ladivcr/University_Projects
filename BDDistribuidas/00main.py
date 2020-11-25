@@ -73,11 +73,15 @@ while(True):
                 if result == False:
                     print("No existe un cliente con esos datos")
                 else:
-                    if len(result)>5:
-                        for values in result:
+                    #print(len(result),result)
+                    print("Lista de coincidencias")
+                    for values in result:
+                        if len(values)>=2:
+                            for i in values:
+                                print(f"Datos del cliente: {i}")
+                        else:
                             print(f"Datos del cliente: {values}")
-                    else:
-                        print(f"Datos del cliente: {result}")
+                    
 
             #6) Listar clientes
             elif opcion == 6:
