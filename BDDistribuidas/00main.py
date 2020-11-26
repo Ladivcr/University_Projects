@@ -10,8 +10,8 @@ def acciones():
     print("\t¿Qué deseas hacer?")
     print("1) Registras nuevo cliente\n2) Registrar nueva dirección")
     print("3) Actualizar cliente\n4) Actualizar dirección")
-    print("5) Buscar cliente\n6) Listar clientes\n7) Listar clientes totales")
-    print("8) Volver al inicio")
+    print("5) Buscar cliente\n6) Listar clientes")
+    print("7) Volver al inicio")
     try:
         option = int(input("\nIntroduce un número: "))
         if 1 > option or option > 8:
@@ -85,14 +85,26 @@ while(True):
 
             #6) Listar clientes
             elif opcion == 6:
-                pass
-                #result = list_clients()
+                result = functions.list_clients(BDS)
+                if result == False:
+                    print("No existe un cliente con esos datos")
+                else:
+                    #print(len(result),result)
+                    print(f"\tLista de clientes - Total: {len(result)} \n")
+                    #print(result)
+                    for values in result:
+                        name, fenac, RFC = values.values()
+                        print(name, fenac, RFC)
+                        """if len(values)>=2:
+                            for valores in values:
+                                mydata = valores #= dict(valores)
+                                print(mydata, valores)
+                                print(f"Datos del cliente +: {mydata.values()}")
+                        else:
+                            print(f"Datos del cliente -: {values}")
+                        """
 
-            #7) Listar clientes totales
         elif opcion == 7:
-                pass
-                #result = list_total_clients()
-        elif opcion == 8:
             break
 
         elif status == False:
@@ -103,27 +115,28 @@ while(True):
     # CONEXION A Pátzcuaro DADA LA UBICACION ELEGIDA
     elif opt == 2:
         BD = "Patzcuaro"
-        status = functions.conexion(BD) # Comprobar que se efectuo la conexión
+        status = functions.conexion(BD)  # Comprobamos que se pueda hacer la conexión
         if status == True:
+            BD = "Patzcuaro"
             opcion = acciones()
             # 1) Registras nuevo cliente
             if opcion == 1:
                 status = functions.add_client(BD)
                 if status == True:
-                    print("\t Registro efectuado correctamente")
+                    print("\t\nRegistro de cliente efectuado correctamente")
                 elif status == False:
-                    print("\t No ha sido posible efectuar el registro")
+                    print("\t\nNo ha sido posible efectuar el registro del cliente")
                 else:
-                    print("\t Algo a salido mal a la hora de efectuar el registro del cliente")
+                    print("\t\nAlgo a salido mal a la hora de efectuar el registro del cliente")
             #2) Registrar nueva dirección
             elif opcion == 2:
                 status = functions.add_address(BD)
                 if status == True:
-                    print("\t Registro de dirección efectuado correctamente")
+                    print("\t\nRegistro de dirección efectuado correctamente")
                 elif status == False:
-                    print("\t No ha sido posible efectuar el registro de la dirección")
+                    print("\t\nNo ha sido posible efectuar el registro de la dirección")
                 else:
-                    print("\t Algo a salido mal a la hora de efectuar el registro de dirección")
+                    print("\t\nAlgo a salido mal a la hora de efectuar el registro de dirección")
 
             #3) Actualizar cliente
             elif opcion == 3:
@@ -141,21 +154,39 @@ while(True):
                 if result == False:
                     print("No existe un cliente con esos datos")
                 else:
-                    if len(result)>5:
-                        for values in result:
+                    #print(len(result),result)
+                    print("Lista de coincidencias")
+                    for values in result:
+                        if len(values)>=2:
+                            for i in values:
+                                print(f"Datos del cliente: {i}")
+                        else:
                             print(f"Datos del cliente: {values}")
-                    else:
-                        print(f"Datos del cliente: {result}")
+
 
             #6) Listar clientes
             elif opcion == 6:
-                pass
-                #result = list_clients()
+                result = functions.list_clients(BDS)
+                if result == False:
+                    print("No existe un cliente con esos datos")
+                else:
+                    #print(len(result),result)
+                    print(f"\tLista de clientes - Total: {len(result)} \n")
+                    #print(result)
+                    for values in result:
+                        name, fenac, RFC = values.values()
+                        print(name, fenac, RFC)
+                        """if len(values)>=2:
+                            for valores in values:
+                                mydata = valores #= dict(valores)
+                                print(mydata, valores)
+                                print(f"Datos del cliente +: {mydata.values()}")
+                        else:
+                            print(f"Datos del cliente -: {values}")
+                        """
 
-            #7) Listar clientes totales
         elif opcion == 7:
-                pass
-                #result = list_total_clients()
+            break
 
         elif status == False:
             print("Algo fallo en la conexión a Pátzcuaro, contacta al admin.")

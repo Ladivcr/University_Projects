@@ -250,7 +250,33 @@ def search_client(BDS):
 
 
 # 6) Listar clientes
-# 7) Listar clientes totales
+def list_clients(BDS):
+    try:
+        #clientes = ['Nombre |  FeNacimiento  | RFC']
+        clientes = []
+        for BD in BDS:
+            cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+            cursor = cnx.cursor()
+            query = ("SELECT * FROM Clientes")
+            cursor.execute(query)
+            for row in cursor:
+                #print(row)
+                name = f"{row[0]} {row[1]} {row[2]}"
+                fecha = str(row[3])
+                cliente = {"Nombre": name, "FechaDeNacimiento": fecha, "RFC": row[4]}
+                clientes.append(cliente)
+
+        return(clientes)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+        else:
+            print(err)
+        return []
+    else:
+        cnx.close()
 
 # TP nos ayudara a evaluar que no haya registros duplicados en la BD
 # sino que los registro sean únicos y globales
