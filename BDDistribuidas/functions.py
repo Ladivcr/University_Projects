@@ -199,7 +199,7 @@ def search_client(BDS):
             try:
                 while True:
                     address = str(input("\nIntroduce la dirección: ")).split(" ")
-                    print(address)
+                    #print(address)
                     if len(address) == 5:
                         calle = address[0].capitalize(); numero = address[1]
                         colonia = address[2].capitalize(); estado = address[3].capitalize()

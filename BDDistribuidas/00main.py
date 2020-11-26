@@ -95,15 +95,7 @@ while(True):
                     for values in result:
                         name, fenac, RFC = values.values()
                         print(name, fenac, RFC)
-                        """if len(values)>=2:
-                            for valores in values:
-                                mydata = valores #= dict(valores)
-                                print(mydata, valores)
-                                print(f"Datos del cliente +: {mydata.values()}")
-                        else:
-                            print(f"Datos del cliente -: {values}")
-                        """
-
+                        
         elif opcion == 7:
             break
 
@@ -176,14 +168,6 @@ while(True):
                     for values in result:
                         name, fenac, RFC = values.values()
                         print(name, fenac, RFC)
-                        """if len(values)>=2:
-                            for valores in values:
-                                mydata = valores #= dict(valores)
-                                print(mydata, valores)
-                                print(f"Datos del cliente +: {mydata.values()}")
-                        else:
-                            print(f"Datos del cliente -: {values}")
-                        """
 
         elif opcion == 7:
             break
