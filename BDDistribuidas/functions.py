@@ -386,18 +386,18 @@ def DP(cliente = None, domicilio = None, searchByAdd = None):
 
     elif searchByAdd != None:
         tmp_bufer_aux = []
-        print("This is: ", searchByAdd)
+        #print("This is: ", searchByAdd)
         try:
             for values in searchByAdd:
                 if len(values)>=2:
                     try:
                         for i in values:
-                            print(f"Datos del cliente-: {i[0]}")
+                            #print(f"Datos del cliente-: {i[0]}")
                             tmp_bufer_aux.append(i[0])
                     except:
                         pass
                 else:
-                    print(f"Datos del clientex: {values[0][0]}")
+                    #print(f"Datos del clientex: {values[0][0]}")
                     tmp_bufer_aux.append(values[0][0])
         except:
             pass
