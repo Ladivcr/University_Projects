@@ -119,18 +119,18 @@ def add_address(BD):
         numero = int(input("Número de casa: "))
         colonia = str(input("Colonia: ")); colonia = colonia.capitalize()
         estado = str(input("Estado: ")); estado = estado.capitalize()
-        CP = str(input("Código Postal: "))
+        cp = str(input("Código Postal: "))
         rfc = str(input("RFC del Cliente: "))
     except:
         print("Algo hiciste mal, introduce los datos de nuevo")
     # Para TP
-    direccion = [calle, numero, colonia, estado, CP, rfc]
+    direccion = [calle, numero, colonia, estado, cp, rfc]
     # Comprobamos que no haya un registro con estos DATOS
     try:
         # ANTES DE INSERTAR DEBEREMOS LLAMAR LA FUNCIÓN TP PARA
         # CORROBORAR QUE SEA UN REGISTRO GLOBAL
         status = TP(datos = direccion, data_type="Domicilio")
-        print(f"estado!! {status}")
+        #print(f"estado!! {status}")
         if status == True:
             print("\n\tEl registro ya existe en una de las BD")
             return(False)
@@ -144,7 +144,7 @@ def add_address(BD):
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
         sentence = "INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (calle, numero, colonia, estado, CP, rfc)
+        val = (calle, numero, colonia, estado, cp, rfc, )
 
         cursor.execute(sentence, val)
         cursor.close()
@@ -161,9 +161,10 @@ def add_address(BD):
 # Búsqueda por: nombre, RFC o domicilio
 def search_client(BDS):
     print("\t ########## BÚSQUEDA DE CLIENTE ##########")
+    marca = "off"
     try:
         opt = int(input("\n1) Por Nombre\n2) Por RFC\n3) Por Domicilio\n\nIntroduce un número: "))
-        
+
         if opt == 1:
 
             name = str(input("Introduce el nombre del cliente: ")).split(" ")
@@ -179,7 +180,7 @@ def search_client(BDS):
             else:
                 name = name[0].capitalize()
                 sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%";'
-                val = (name, ) 
+                val = (name, )
         elif opt == 2:
 
             rfc = str(input("Introduce el RFC del cliente: "))
@@ -188,8 +189,31 @@ def search_client(BDS):
 
             #print(sentence, val)
         elif opt == 3:
-            pass
-        
+            marca = "on"
+            # calle, numero, colonia, estado, CP
+            print("\n\t## INSTRUCCIONES ##")
+            print("\nIntroduce los datos en el siguiente orden y separados por espacio:")
+            print("\tcalle, numero, colonia, estado, CP")
+            print("\nIMPORTANTE: Introduce todos los datos")
+            print("Si no conoces el dato, introduce '-' (guíon)")
+            try:
+                while True:
+                    address = str(input("\nIntroduce la dirección: ")).split(" ")
+                    print(address)
+                    if len(address) == 5:
+                        calle = address[0].capitalize(); numero = address[1]
+                        colonia = address[2].capitalize(); estado = address[3].capitalize()
+                        cp = address[4]
+                        #sentence = 'SELECT RFC FROM Direcciones WHERE Calle LIKE %s"%" OR (Numero LIKE %s"%" OR Colonia LIKE %s"%" OR Estado LIKE %s"%" OR CP LIKE %s"%");'
+                        sentence = 'SELECT RFC FROM Direcciones WHERE Calle = %s OR (Numero = %s OR Colonia = %s OR Estado = %s OR CP = %s);'
+                        val = (calle, numero, colonia, estado, cp, )
+                        break
+                    else:
+                        print("Deben de ser 5 datos (los guines se cuentan)")
+            except:
+                print("Revisa que el segundo dato sea un número")
+
+        #print(val)
         tmp_bufer = []
         #print("Tia")
         try:
@@ -207,9 +231,12 @@ def search_client(BDS):
                 else:
                     pass
 
-            if len(tmp_bufer) != 0:
+            if len(tmp_bufer) != 0 and marca == "off":
                 cnx.close()
                 return(tmp_bufer)
+            elif len(tmp_bufer) != 0 and marca == "on":
+                result = DP(searchByAdd = tmp_bufer)
+                return(result)
             else:
                 #print("No existe un cliente con esos datos")
                 return(False)
@@ -258,7 +285,7 @@ def TP(datos, data_type):
 
 #Procesador de datos (DP)
 # Guarda y recupera datos localizados en el sitio
-def DP(cliente = None, domicilio = None):
+def DP(cliente = None, domicilio = None, searchByAdd = None):
     """
     cliente = Datos del cliente para hacer la revisión de existencia
     domicilio = Datos de la dirección para hacer la revisión de existencia
@@ -330,7 +357,54 @@ def DP(cliente = None, domicilio = None):
         elif len(tmp_bufer) == 0 or len(tmp_bufer) < 0:
             cnx.close()
             return(0)
+
+    elif searchByAdd != None:
+        tmp_bufer_aux = []
+        print("This is: ", searchByAdd)
+        try:
+            for values in searchByAdd:
+                if len(values)>=2:
+                    try:
+                        for i in values:
+                            print(f"Datos del cliente-: {i[0]}")
+                            tmp_bufer_aux.append(i[0])
+                    except:
+                        pass
+                else:
+                    print(f"Datos del clientex: {values[0][0]}")
+                    tmp_bufer_aux.append(values[0][0])
+        except:
+            pass
+
+        try:
+            tmp_bufer = []
+            for bd in BD:
+                cnx = mysql.connector.connect(user=user,
+                password=password, host=host, database=bd)
+                cursor = cnx.cursor()
+
+                for rfc in tmp_bufer_aux:
+                    sentence = "SELECT * FROM Clientes WHERE RFC = %s"
+                    val = (rfc, )
+                    cursor.execute(sentence, val)
+                    values = cursor.fetchall()
+
+                    if len(values) != 0:
+                        tmp_bufer.append(values)
+                    else:
+                        pass
+            else:
+                if len(tmp_bufer) != 0:
+                    return(tmp_bufer)
+                else:
+                    return(False)
+
+        except:
+            pass
+
+        print(tmp_bufer)
+
+
     else:
         print("Error en los datos esperados")
         return(False)
-

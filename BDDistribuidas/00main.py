@@ -42,20 +42,20 @@ while(True):
             if opcion == 1:
                 status = functions.add_client(BD)
                 if status == True:
-                    print("\t Registro efectuado correctamente")
+                    print("\t\nRegistro de cliente efectuado correctamente")
                 elif status == False:
-                    print("\t No ha sido posible efectuar el registro")
+                    print("\t\nNo ha sido posible efectuar el registro del cliente")
                 else:
-                    print("\t Algo a salido mal a la hora de efectuar el registro del cliente")
+                    print("\t\nAlgo a salido mal a la hora de efectuar el registro del cliente")
             #2) Registrar nueva dirección
             elif opcion == 2:
                 status = functions.add_address(BD)
                 if status == True:
-                    print("\t Registro de dirección efectuado correctamente")
+                    print("\t\nRegistro de dirección efectuado correctamente")
                 elif status == False:
-                    print("\t No ha sido posible efectuar el registro de la dirección")
+                    print("\t\nNo ha sido posible efectuar el registro de la dirección")
                 else:
-                    print("\t Algo a salido mal a la hora de efectuar el registro de dirección")
+                    print("\t\nAlgo a salido mal a la hora de efectuar el registro de dirección")
 
             #3) Actualizar cliente
             elif opcion == 3:
@@ -81,7 +81,7 @@ while(True):
                                 print(f"Datos del cliente: {i}")
                         else:
                             print(f"Datos del cliente: {values}")
-                    
+
 
             #6) Listar clientes
             elif opcion == 6:
