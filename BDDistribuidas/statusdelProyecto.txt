@@ -23,3 +23,5 @@ transacciones (TP) y que:
 
  De manera opcional incluir en el programa la funcionalidad de crear tablas nuevas de
   manera transparente para el usuario del sistema distribuido.
+
+C. Sistema centralizado con sucursales: LISTO 

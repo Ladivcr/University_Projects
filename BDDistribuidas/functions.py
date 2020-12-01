@@ -26,14 +26,41 @@ with open("credentials.json") as file:
     credentials = json.load(file)
 
 datosconnect = credentials["credentials"][0]
-# Seleccionamos las credenciales
+# Seleccionamos las credenciales para la bd central que alberga las
+# sucursales
 user = datosconnect["user"]
 password = datosconnect["password"]
 host = datosconnect["host"]
+db = datosconnect["database"]
 
-def conexion(BD):
+def all_dbs():
+    try:
+        cnx = mysql.connector.connect(user=user, password=password,
+        host=host, database=db)
+
+        cursor = cnx.cursor()
+        sentence = 'SELECT * FROM Sucursales'
+        cursor.execute(sentence)
+        values = cursor.fetchall()
+        bd1 = values[0][5]; bd2 = values[1][5]
+        #print(usuario, contrasena, host, sucursal)
+        cnx.close()
+        return([bd1, bd2])
+
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+            return (False)
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+            return (False)
+        else:
+            return (False)
+
+def conexion(BD, conectores):
     # Hacemos la conexión
     try:
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
         cnx = mysql.connector.connect(user=user, password=password,
         host=host, database=BD)
         print(f"Conexión a {BD} exitosa...\n")
@@ -41,12 +68,29 @@ def conexion(BD):
     except:
         return(False)
 
+#################################### ESTANDAR DE OPCIONES ###################
+##################ARCHIVO MENU#################################
+def acciones():
+    print("\t¿Qué deseas hacer?")
+    print("1) Registras nuevo cliente\n2) Registrar nueva dirección")
+    print("3) Actualizar cliente\n4) Actualizar dirección")
+    print("5) Buscar cliente\n6) Listar clientes")
+    print("7) Cambiar ubicación\n8) Salir")
+    try:
+        option = int(input("\nIntroduce un número: "))
+        if 1 > option or option > 8:
+            print("La opción no existe\n")
+        else:
+            return(option)
+    except:
+        print("Te he pedido un número")
 
 
 # OPERACIONES A REALIZAR EN LA BASE DE DATOS
 
 #1) Registras nuevo cliente
-def add_client(BD):
+def add_client(BD, conectores):
+    print(conectores)
     print("\t ########## AÑADIR CLIENTE ##########")
     print("\tIntroduce los siguientes datos para añadir el cliente\n")
     name = str(input("Nombre: ")); name = name.capitalize()
@@ -96,6 +140,7 @@ def add_client(BD):
         print("Algo a fallado en TP")
 
     try:
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
@@ -111,7 +156,7 @@ def add_client(BD):
 
 
 #2) Registrar nueva dirección
-def add_address(BD):
+def add_address(BD, conectores):
     print("\t ########## AÑADIR DIRECCIÓN ##########")
     print("\tIntroduce los siguientes datos para añadir la dirección\n")
     try:
@@ -140,6 +185,7 @@ def add_address(BD):
         print("Algo fallo en TP")
 
     try:
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
         cnx = mysql.connector.connect(user=user, password=password, host=host)#, database=BD)
         cursor = cnx.cursor()
         cursor.execute(f"USE {BD}")
@@ -159,7 +205,7 @@ def add_address(BD):
 
 #5) Buscar clientes
 # Búsqueda por: nombre, RFC o domicilio
-def search_client(BDS):
+def search_client(BDS, conectores):
     print("\t ########## BÚSQUEDA DE CLIENTE ##########")
     marca = "off"
     try:
@@ -219,6 +265,7 @@ def search_client(BDS):
         try:
             #print(sentence, val)
             for BD in BDS:
+                user = conectores[0]; password = conectores[1]; host = conectores[2]
                 cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
                 cursor = cnx.cursor()
                 #sentence = 'SELECT * FROM Clientes WHERE Nombre LIKE %s"%" ;'
@@ -250,10 +297,11 @@ def search_client(BDS):
 
 
 # 6) Listar clientes
-def list_clients(BDS):
+def list_clients(BDS, conectores):
     try:
         #clientes = ['Nombre |  FeNacimiento  | RFC']
         clientes = []
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
         for BD in BDS:
             cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
             cursor = cnx.cursor()
@@ -323,7 +371,6 @@ def DP(cliente = None, domicilio = None, searchByAdd = None):
         #print(RFC)
         tmp_bufer = []
         for bd in BD:
-
             cnx = mysql.connector.connect(user=user,
             password=password, host=host, database=bd)
             cursor = cnx.cursor()

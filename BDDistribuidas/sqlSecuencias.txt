@@ -20,3 +20,11 @@ CREATE TABLE Direcciones(Id INT(11) AUTO_INCREMENT PRIMARY KEY,
 
 
 - En el caso de Pátzcuaro es exactamente lo mismo
+
+CREATE TABLE Sucursales (Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  sucursal VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  usuario VARCHAR(50)  CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  contraseña VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  host VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  db VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+);
