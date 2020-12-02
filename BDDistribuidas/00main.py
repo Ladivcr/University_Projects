@@ -72,7 +72,7 @@ tmp_status = True
 while(tmp_status == True):
     values = current_ubicacion()
     if values != False:
-        print(values)
+        #print(values)
         user = values[0]; passwd = values[1]
         hoster = values[2]; ubicacion = values[3]
         #print(user, passwd, hoster, ubicacion)
