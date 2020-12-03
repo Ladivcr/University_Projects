@@ -16,12 +16,12 @@ transacciones (TP) y que:
   b. Permita insertar nuevos clientes y direcciones, la inserción del registro debe
   realizarse en la base de datos de la sucursal a la que corresponde el cliente. LISTO
 
-  c. Permita actualizar datos de los cliente y direcciones.
+  c. Permita actualizar datos de los cliente y direcciones. LISTO
 
   d. Permita hacer búsquedas de clientes por nombre, RFC o domicilio desde
   cualquiera de las sucursales, con opción a listar todos los clientes. LISTO
 
  De manera opcional incluir en el programa la funcionalidad de crear tablas nuevas de
-  manera transparente para el usuario del sistema distribuido.
+  manera transparente para el usuario del sistema distribuido. LISTO
 
-C. Sistema centralizado con sucursales: LISTO 
+C. Sistema centralizado con sucursales: LISTO
