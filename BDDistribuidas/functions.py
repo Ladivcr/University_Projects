@@ -25,7 +25,7 @@ import json
 with open("credentials.json") as file:
     credentials = json.load(file)
 
-datosconnect = credentials["credentials"][0]
+datosconnect = credentials["credentials"]
 # Seleccionamos las credenciales para la bd central que alberga las
 # sucursales
 user = datosconnect["user"]
@@ -419,6 +419,128 @@ def list_clients(BDS, conectores):
         return []
     else:
         cnx.close()
+
+def update_client(BD,conectores):
+    result = list_clients([BD], conectores)
+    print(f"\tLista de clientes - Total: {len(result)} \n")
+    #print(result)
+    for v in result:
+        name, fenac, RFC = v.values()
+        print(name, fenac, RFC)
+    user = conectores[0]; password = conectores[1]; host = conectores[2]
+    cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+    cursor = cnx.cursor()
+    uptable = "UPDATE clientes SET "
+    upvalues = " = %s WHERE Id = %s"
+    columns = ["Nombre","ApellidoP","ApellidoM","RFC"]
+    IdExist = False
+    while not(IdExist):
+        print("\nIngresa el ID del cliente que quieres actualizar")
+        idClient = input()
+        line = cursor.execute("SELECT * FROM clientes WHERE Id = %s;",[idClient])
+        for a in cursor:
+            print(columns[0], a[1], columns[1], a[2], columns[2], a[3], columns[3], a[4])
+            IdExist = True
+        if(not(IdExist)):
+            print("El Id que ingresaste no existe")
+    for c in columns:
+        yes = 3
+        if(c == "idCliente"):
+            while (yes != 1 or yes != 2):
+                print("\nQuieres cambiar", c, ": 1 sí, o 2 para terminar")
+                yes = int(input())
+                if(yes == 1):
+                    print("\nA que valor lo quieres cambiar")
+                    value = input()
+                    values = [c,value,idClient]
+                    update = (uptable+str(c)+upvalues)
+                    cursor.execute(update,values)
+                    cnx.commit()
+                    break
+                elif(yes == 2):
+                    break
+            break
+
+        while (yes != 1 or yes != 2):
+            print("\nQuieres cambiar", c, ": 1 sí, o 2 para continuar a la siguiente columna")
+            yes = int(input())
+            if(yes == 1):
+                print("\nA que valor lo quieres cambiar")
+                value = input()
+                values = [value,idClient]
+                update = (uptable+str(c)+upvalues)
+                cursor.execute(update,values)
+                cnx.commit()
+                break
+            elif(yes == 2):
+                break
+    result = list_clients([BD], conectores)
+    print(f"\tLista de clientes - Total: {len(result)} \n")
+    #print(result)
+    for v in result:
+        name, fenac, RFC = v.values()
+        print(name, fenac, RFC)
+
+def update_address():
+    result = list_clients([BD], conectores)
+    print(f"\tLista de clientes - Total: {len(result)} \n")
+    #print(result)
+    for v in result:
+        name, fenac, RFC = v.values()
+        print(name, fenac, RFC)
+    user = conectores[0]; password = conectores[1]; host = conectores[2]
+    cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+    cursor = cnx.cursor()
+    uptable = "UPDATE clientes SET "
+    upvalues = " = %s WHERE Id = %s"
+    columns = ["Nombre","ApellidoP","ApellidoM","RFC"]
+    IdExist = False
+    while not(IdExist):
+        print("\nIngresa el ID del cliente que quieres actualizar")
+        idClient = input()
+        line = cursor.execute("SELECT * FROM clientes WHERE Id = %s;",[idClient])
+        for a in cursor:
+            print(columns[0], a[1], columns[1], a[2], columns[2], a[3], columns[3], a[4])
+            IdExist = True
+        if(not(IdExist)):
+            print("El Id que ingresaste no existe")
+    for c in columns:
+        yes = 3
+        if(c == "idCliente"):
+            while (yes != 1 or yes != 2):
+                print("\nQuieres cambiar", c, ": 1 sí, o 2 para terminar")
+                yes = int(input())
+                if(yes == 1):
+                    print("\nA que valor lo quieres cambiar")
+                    value = input()
+                    values = [c,value,idClient]
+                    update = (uptable+str(c)+upvalues)
+                    cursor.execute(update,values)
+                    cnx.commit()
+                    break
+                elif(yes == 2):
+                    break
+            break
+
+        while (yes != 1 or yes != 2):
+            print("\nQuieres cambiar", c, ": 1 sí, o 2 para continuar a la siguiente columna")
+            yes = int(input())
+            if(yes == 1):
+                print("\nA que valor lo quieres cambiar")
+                value = input()
+                values = [value,idClient]
+                update = (uptable+str(c)+upvalues)
+                cursor.execute(update,values)
+                cnx.commit()
+                break
+            elif(yes == 2):
+                break
+    result = list_clients([BD], conectores)
+    print(f"\tLista de clientes - Total: {len(result)} \n")
+    #print(result)
+    for v in result:
+        name, fenac, RFC = v.values()
+        print(name, fenac, RFC)
 
 # TP nos ayudara a evaluar que no haya registros duplicados en la BD
 # sino que los registro sean únicos y globales

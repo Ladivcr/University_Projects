@@ -8,6 +8,7 @@ with open('credentialsDBMorelia.json') as json_file:
 with open('credentialsDBPatzcuaro.json') as json_file:
     config2 = json.load(json_file)
 
+
 def list():
     try:
         cnx1 = mysql.connector.connect(**config1)
