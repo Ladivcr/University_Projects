@@ -15,7 +15,8 @@ from mysql.connector import errorcode
 with open("credentials.json") as file:
     credentials = json.load(file)
 
-datosconnect = credentials["credentials"]
+datosconnect = credentials["credentials"][0]
+#print(datosconnect)
 # Seleccionamos las credenciales para conectarnos a la bd central y de
 # ahí obtener las credenciales para las sucursales
 User = datosconnect["user"]
@@ -128,7 +129,7 @@ while(tmp_status_menu):
 
     #4) Actualizar dirección
     elif opcion == 4:
-        #update_address(BDS, datos_coneccion)
+        functions.update_address(BD, datos_coneccion)
 
     #5) Buscar cliente
     elif opcion == 5:
@@ -167,15 +168,16 @@ while(tmp_status_menu):
     elif opcion == 8:
         status = functions.create_table(BD, datos_coneccion)
 
-<<<<<<< HEAD
+    #<<<<<<< HEAD
 
     #9) Mostrar Tablas
-=======
+    #=======
     #9) Salir
->>>>>>> 30e3205993c0618823e5a6a4f16afd5051fe3e6c
+    #>>>>>>> 30e3205993c0618823e5a6a4f16afd5051fe3e6c
+    #9) Mostrar tablas
     elif opcion == 9:
         status = functions.show_tables(BD, datos_coneccion)
-        
+
     #10) Salir
     elif opcion == 10:
         print("Hasta luego...")

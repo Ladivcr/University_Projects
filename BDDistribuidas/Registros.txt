@@ -1,0 +1,62 @@
+################# CLIENTES ###################################
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Vidale", "Cardano", "Tartaglia",  "2005-06-28", "CICV20050628");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Jose", "Calduc", "Cardano",  "2000-04-23", "COCJ20000423");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Joseph", "Caldin", "Varul",  "2005-04-25", "COVJ20050425");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Kalid", "Garcia", "Olivo",  "2000-01-01", "GAOK20000101");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Jorge", "Ñioñi", "Ñunez",  "2000-12-23", "ÑOÑJ20001223");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Juan", "Ñuñes", "Ñoñes", "2000-12-29", "ÑUÑJ20001229");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("José", "Ñunez", "Calduc", "2000-12-25", "XOCJ20001225");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Danso", "Uchiha", "Zadara", "1996-08-08", "UAZD19960808");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Katnis", "Tercel", "Alred", "1985-05-18", "TAAK19850518");
+
+INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
+VALUES ("Platón", "Aristoteles", "Seneca", "1945-05-19", "AASP19450519");
+
+
+####################### DIRECCIONES ###########################
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 9, "Centro", "Morelia", "58000", "CICV20050628");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Filo", 9, "Sofia", "Atenas", "78000", "TAAK19850518");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 9, "Atenea", "Atenas", "78000", "UAZD19960808");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 19, "Atenea", "Atenas", "78000", "AASP19450519");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 29, "Atenea", "Atenas", "78000", "XOCJ20001225");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 39, "Atenea", "Atenas", "78000", "ÑUÑJ20001229");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 49, "Atenea", "Atenas", "78000", "ÑOÑJ20001223");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 59, "Atenea", "Atenas", "78000", "GAOK20000101");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 69, "Atenea", "Atenas", "78000", "COVJ20050425");
+
+INSERT INTO Direcciones(Calle, Numero, Colonia, Estado, CP, RFC)
+VALUES ("Nipon", 79, "Atenea", "Atenas", "78000", "COCJ20000423");

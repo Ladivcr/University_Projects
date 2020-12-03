@@ -25,7 +25,8 @@ import json
 with open("credentials.json") as file:
     credentials = json.load(file)
 
-datosconnect = credentials["credentials"]
+datosconnect = credentials["credentials"][0]
+#print(datosconnect)
 # Seleccionamos las credenciales para la bd central que alberga las
 # sucursales
 user = datosconnect["user"]
@@ -165,6 +166,7 @@ def create_table(BD, conectores):
     except:
         print("A fallado la conexión\nCreación de la tabla interrumpida...")
         return(False)
+
     return(None)
 
 def show_tables(BD, conectores):
@@ -239,7 +241,7 @@ def acciones():
 
 #1) Registras nuevo cliente
 def add_client(BD, conectores):
-    print(conectores)
+    #print(conectores)
     print("\t ########## AÑADIR CLIENTE ##########")
     print("\tIntroduce los siguientes datos para añadir el cliente\n")
     name = str(input("Nombre: ")); name = name.capitalize()
@@ -475,6 +477,34 @@ def list_clients(BDS, conectores):
     else:
         cnx.close()
 
+def list_direcciones(BDS, conectores):
+    try:
+        #clientes = ['Nombre |  FeNacimiento  | RFC']
+        direcciones = []
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
+        for BD in BDS:
+            cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+            cursor = cnx.cursor()
+            query = ("SELECT * FROM Direcciones")
+            cursor.execute(query)
+            for row in cursor:
+                #print(row)
+                name = f"{row[0]} {row[1]} {row[2]} {row[3]} {row[4]} {row[5]} {row[6]}"
+                cliente = {"Id":row[0], "Calle": row[1], "Numero": row[2], "Colonia": row[3], "Estado": row[4], "CP": row[5], "RFC": row[6]}
+                direcciones.append(cliente)
+
+        return(direcciones)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+        else:
+            print(err)
+        return []
+    else:
+        cnx.close()
+
 def update_client(BD,conectores):
     result = list_clients([BD], conectores)
     print(f"\tLista de clientes - Total: {len(result)} \n")
@@ -485,14 +515,14 @@ def update_client(BD,conectores):
     user = conectores[0]; password = conectores[1]; host = conectores[2]
     cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
     cursor = cnx.cursor()
-    uptable = "UPDATE clientes SET "
-    upvalues = " = %s WHERE Id = %s"
+    uptable = "UPDATE Clientes SET "
+    upvalues = " = %s WHERE RFC = %s"
     columns = ["Nombre","ApellidoP","ApellidoM","RFC"]
     IdExist = False
     while not(IdExist):
-        print("\nIngresa el ID del cliente que quieres actualizar")
-        idClient = input()
-        line = cursor.execute("SELECT * FROM clientes WHERE Id = %s;",[idClient])
+        print("\nIngresa el RFC del cliente que quieres actualizar")
+        idClient = input("> ")
+        line = cursor.execute("SELECT * FROM Clientes WHERE RFC = %s;",[idClient])
         for a in cursor:
             print(columns[0], a[1], columns[1], a[2], columns[2], a[3], columns[3], a[4])
             IdExist = True
@@ -503,10 +533,10 @@ def update_client(BD,conectores):
         if(c == "idCliente"):
             while (yes != 1 or yes != 2):
                 print("\nQuieres cambiar", c, ": 1 sí, o 2 para terminar")
-                yes = int(input())
+                yes = int(input("> "))
                 if(yes == 1):
                     print("\nA que valor lo quieres cambiar")
-                    value = input()
+                    value = input("> ")
                     values = [c,value,idClient]
                     update = (uptable+str(c)+upvalues)
                     cursor.execute(update,values)
@@ -518,10 +548,10 @@ def update_client(BD,conectores):
 
         while (yes != 1 or yes != 2):
             print("\nQuieres cambiar", c, ": 1 sí, o 2 para continuar a la siguiente columna")
-            yes = int(input())
+            yes = int(input("> "))
             if(yes == 1):
                 print("\nA que valor lo quieres cambiar")
-                value = input()
+                value = input("> ")
                 values = [value,idClient]
                 update = (uptable+str(c)+upvalues)
                 cursor.execute(update,values)
@@ -536,26 +566,26 @@ def update_client(BD,conectores):
         name, fenac, RFC = v.values()
         print(name, fenac, RFC)
 
-def update_address():
-    result = list_clients([BD], conectores)
-    print(f"\tLista de clientes - Total: {len(result)} \n")
+def update_address(BD, conectores):
+    result = list_direcciones([BD], conectores)
+    print(f"\tLista de direcciones - Total: {len(result)} \n")
     #print(result)
     for v in result:
-        name, fenac, RFC = v.values()
-        print(name, fenac, RFC)
+        id, calle, numero, colonia, estado, cp, rfc = v.values()
+        print(id, calle, numero, colonia, estado, cp, rfc)
     user = conectores[0]; password = conectores[1]; host = conectores[2]
     cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
     cursor = cnx.cursor()
-    uptable = "UPDATE clientes SET "
+    uptable = "UPDATE Direcciones SET "
     upvalues = " = %s WHERE Id = %s"
-    columns = ["Nombre","ApellidoP","ApellidoM","RFC"]
+    columns = ["Id","Calle","Numero","Colonia","Estado","CP"]
     IdExist = False
     while not(IdExist):
-        print("\nIngresa el ID del cliente que quieres actualizar")
-        idClient = input()
-        line = cursor.execute("SELECT * FROM clientes WHERE Id = %s;",[idClient])
+        print("\nIngresa el ID de la dirección que quieres actualizar")
+        idClient = input("> ")
+        line = cursor.execute("SELECT * FROM Direcciones WHERE Id = %s;",[idClient])
         for a in cursor:
-            print(columns[0], a[1], columns[1], a[2], columns[2], a[3], columns[3], a[4])
+            print(columns[0], a[1], columns[1], a[2], columns[2], a[3], columns[3], a[4],columns[4], a[5], columns[5], a[6])
             IdExist = True
         if(not(IdExist)):
             print("El Id que ingresaste no existe")
@@ -564,10 +594,10 @@ def update_address():
         if(c == "idCliente"):
             while (yes != 1 or yes != 2):
                 print("\nQuieres cambiar", c, ": 1 sí, o 2 para terminar")
-                yes = int(input())
+                yes = int(input("> "))
                 if(yes == 1):
                     print("\nA que valor lo quieres cambiar")
-                    value = input()
+                    value = input("> ")
                     values = [c,value,idClient]
                     update = (uptable+str(c)+upvalues)
                     cursor.execute(update,values)
@@ -579,10 +609,10 @@ def update_address():
 
         while (yes != 1 or yes != 2):
             print("\nQuieres cambiar", c, ": 1 sí, o 2 para continuar a la siguiente columna")
-            yes = int(input())
+            yes = int(input("> "))
             if(yes == 1):
                 print("\nA que valor lo quieres cambiar")
-                value = input()
+                value = input("> ")
                 values = [value,idClient]
                 update = (uptable+str(c)+upvalues)
                 cursor.execute(update,values)
@@ -590,12 +620,12 @@ def update_address():
                 break
             elif(yes == 2):
                 break
-    result = list_clients([BD], conectores)
-    print(f"\tLista de clientes - Total: {len(result)} \n")
+    result = list_direcciones([BD], conectores)
+    print(f"\tLista de direcciones - Total: {len(result)} \n")
     #print(result)
     for v in result:
-        name, fenac, RFC = v.values()
-        print(name, fenac, RFC)
+        id, calle, numero, colonia, estado, cp, rfc = v.values()
+        print(id, calle, numero, colonia, estado, cp, rfc)
 
 # TP nos ayudara a evaluar que no haya registros duplicados en la BD
 # sino que los registro sean únicos y globales
