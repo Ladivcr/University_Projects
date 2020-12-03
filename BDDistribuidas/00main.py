@@ -174,8 +174,12 @@ while(tmp_status_menu == True):
         status = functions.create_table(BD, datos_coneccion)
 
 
-    #9) Salir
+    #9) Mostrar Tablas
     elif opcion == 9:
+        status = functions.show_tables(BD, datos_coneccion)
+        
+    #10) Salir
+    elif opcion == 10:
         print("Hasta luego...")
         break
 

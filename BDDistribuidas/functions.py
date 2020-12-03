@@ -34,16 +34,19 @@ host = datosconnect["host"]
 db = datosconnect["database"]
 
 def create_table(BD, conectores):
+    name_table = str(input("Introduce el nombre de la tabla, sin espacios: "))
+    if " " in name_table: name_table = "_".join(name_table); name_table.capitalize
+
     num_valores = int(input("Introduce el número de columnas en la tabla: "))
     columnas = []
     for i in range(num_valores):
-        name_columna = str(input(f"Nombre de la columna {i+1}: "))
+        name_columna = str(input(f"Nombre (sin espacios) de la columna {i+1}: "))
         columnas.append(name_columna)
     values = {columnas[i]: [] for i in range(len(columnas))}
 
     print(values)
     for key, value in values.items():
-            option = int(input(f"¿Qué datos recibira la columna *{key}*?\n1) Texto\n2) Números\n3) Fechas\n4) Booleanos\n> "))
+            option = int(input(f"¿Qué datos recibira la columna *{key}*?\n1) Texto\n2) Números\n3) Fechas\n4) Booleanos (valores si/no)\n> "))
 
             if option == 1:
                 tmp = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
@@ -97,35 +100,86 @@ def create_table(BD, conectores):
                     print("El dato se puede quedar en blanco por defecto...")
                     value.append("BOOLEAN")
 
-    opt = int(input("la tabla se conectara a: 1) Clientes ó 2) Direcciones\n> "))
-    user = conectores[0]; password = conectores[1]; host = conectores[2]
-    try:
-        cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
-    except:
-        print("A fallado la conexión\nCreación de la tabla interrumpida...")
-        return(False)
+    opt = int(input("la tabla se conectara a: 1) Clientes 2) Direcciones 3) Otra\n> "))
 
     #CREATE TABLE employees
     #(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     #lastname VARCHAR(20), firstname VARCHAR(20), phone VARCHAR(20),  dateofbirth DATE)
 
-    if opt == 1:
-        #Clientes
-        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC))"
-    elif opt == 2:
-        #Direcciones
-        tmp_d = "Id INT(11) NOT NULL, FOREIGN KEY (Id) REFERENCES Direcciones(Id))"
-    else:
-        print("Opción no existe, se conectara automaticamente a *Clientes...")
-        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC))"
 
     # Formar la sentencia sql
+    #tmp_cont = len(values)
+    aux = show_tables(BD, conectores)
+    sentence = f"CREATE TABLE {name_table} (Id{aux} INT(11) AUTO_INCREMENT PRIMARY KEY, "
+    for key, value in values.items():
+        #if tmp_cont == 0:
+            #sentence += f"{key} {value}"
+        #else:
+            #sentence += f"{key} {value}, "
+
+        sentence += f"{key} {value[0]}, "
 
 
-    print(values, len(values))
+    if opt == 1:
+        #Clientes
+        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC));"
+        sentence += tmp_c
+    elif opt == 2:
+        #Direcciones
+        tmp_d = "Id INT(11) NOT NULL, FOREIGN KEY (Id) REFERENCES Direcciones(Id));"
+        sentence += tmp_d
+    elif opt == 3:
+        tmp_name = str(input("Introduce el nombre de la tabla CORRECTAMENTE: "))
+        tmp_name = tmp_name.capitalize()
+        ################
+        user = conectores[0]; password = conectores[1]; host = conectores[2]
+        try:
+            cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+            cursor = cnx.cursor()
+            cursor.execute(f"DESCRIBE {tmp_name}")
+            tmp_val = cursor.fetchone()
+            tmp_id = tmp_val[0]+" "+tmp_val[1]
+            cnx.close()
+        except:
+            print("A fallado la conexión\nCreación de la tabla interrumpida...")
+            return(False)
+
+        ################
+        tmp_o = f"{tmp_id} NOT NULL, FOREIGN KEY ({tmp_val[0]}) REFERENCES {tmp_name}({tmp_val[0]}));"
+        sentence += tmp_o
+    else:
+        print("Opción no existe, se conectara automaticamente a *Clientes...")
+        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC));"
+        sentence += tmp_c
+
+    #print(values, len(values))
+    print(sentence)
+    user = conectores[0]; password = conectores[1]; host = conectores[2]
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+        cursor = cnx.cursor()
+        cursor.execute(sentence)
+        cnx.close()
+        print("Tabla creada exitosamente...")
+        return(True)
+    except:
+        print("A fallado la conexión\nCreación de la tabla interrumpida...")
+        return(False)
     return(None)
 
-
+def show_tables(BD, conectores):
+    user = conectores[0]; password = conectores[1]; host = conectores[2]
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+        cursor = cnx.cursor()
+        cursor.execute("SHOW TABLES;")
+        result = cursor.fetchall()
+        print(result)
+        cnx.close()
+        return(len(result))
+    except:
+        print("A fallado la conexión\nNo se pueden mostrar las tablas")
+        return(False)
 
 def all_dbs():
     try:
@@ -169,10 +223,11 @@ def acciones():
     print("1) Registras nuevo cliente\n2) Registrar nueva dirección")
     print("3) Actualizar cliente\n4) Actualizar dirección")
     print("5) Buscar cliente\n6) Listar clientes")
-    print("7) Cambiar ubicación\n8) Crear una tabla\n9) Salir")
+    print("7) Cambiar ubicación\n8) Crear una tabla\n9) Mostrar tablas existentes")
+    print("10) Salir")
     try:
         option = int(input("\nIntroduce un número: "))
-        if option < 1 or option > 9:
+        if option < 1 or option > 10:
             print("La opción no existe\n")
         else:
             return(option)
