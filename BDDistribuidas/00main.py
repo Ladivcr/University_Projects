@@ -15,7 +15,7 @@ from mysql.connector import errorcode
 with open("credentials.json") as file:
     credentials = json.load(file)
 
-datosconnect = credentials["credentials"][0]
+datosconnect = credentials["credentials"]
 # Seleccionamos las credenciales para conectarnos a la bd central y de
 # ahí obtener las credenciales para las sucursales
 User = datosconnect["user"]
@@ -41,8 +41,7 @@ def current_ubicacion():
         print("Debes introducir un número para identificarte...")
 
     try:
-        cnx = mysql.connector.connect(user=User, password=Password,
-        host=Host, database=DB)
+        cnx = mysql.connector.connect(user=User, password=Password, host=Host, database=DB)
 
         cursor = cnx.cursor()
         sentence = 'SELECT * FROM Sucursales WHERE db = %s;'
@@ -65,43 +64,41 @@ def current_ubicacion():
         else:
             return (False)
 
+
 BDS = functions.all_dbs()
 #print(BDS)
 #BDS = ["Morelia", "Patzcuaro"]
 tmp_status = True
-while(tmp_status == True):
+while(tmp_status):
     values = current_ubicacion()
-    if values != False:
+    if values:
         #print(values)
         user = values[0]; passwd = values[1]
         hoster = values[2]; ubicacion = values[3]
         #print(user, passwd, hoster, ubicacion)
         tmp_status = False
         break
-    elif values == False:
+    elif not(values):
         print("Algo a fallado a la hora de elegir ubicación y no podemos continuar sin ubicación")
         sys.exit(1)
-
-
 
 
 while True:
     try:
         sucursal = ubicacion
-        datos_coneccion = [user, passwd, hoster] # Mis credenciales
+        datos_coneccion = [user, passwd, hoster]  # Mis credenciales
         status = functions.conexion(sucursal, datos_coneccion)
-        if status == True:
+        if(status):
             #print(datos_coneccion)
             break
-            pass
-        elif status == False:
+        elif not(status):
             print("Algo a fallado en la conexión a la sucursal, reinicia el script y vuelve a intentar")
     except:
         print("Error en la función de conexion, no debería pasar. Reportalo al admin.")
 
 
 tmp_status_menu = True
-while(tmp_status_menu == True):
+while(tmp_status_menu):
     print(f"\n\tUbicación Actual: {sucursal}\n")
     # CONEXION A Morelia DADA LA UBICACION ELEGIDA
     BD = sucursal
@@ -109,52 +106,49 @@ while(tmp_status_menu == True):
     # 1) Registras nuevo cliente
     if opcion == 1:
         status = functions.add_client(BD, datos_coneccion)
-        if status == True:
+        if(status):
             print("\t\nRegistro de cliente efectuado correctamente")
-        elif status == False:
+        elif not(status):
             print("\t\nNo ha sido posible efectuar el registro del cliente")
         else:
             print("\t\nAlgo a salido mal a la hora de efectuar el registro del cliente")
     #2) Registrar nueva dirección
     elif opcion == 2:
         status = functions.add_address(BD, datos_coneccion)
-        if status == True:
+        if(status):
             print("\t\nRegistro de dirección efectuado correctamente")
-        elif status == False:
+        elif not(status):
             print("\t\nNo ha sido posible efectuar el registro de la dirección")
         else:
             print("\t\nAlgo a salido mal a la hora de efectuar el registro de dirección")
 
     #3) Actualizar cliente
     elif opcion == 3:
-        pass
-        #status = update_client()
+        functions.update_client(BD, datos_coneccion)
 
     #4) Actualizar dirección
     elif opcion == 4:
-        pass
-        #status = update_address()
+        #update_address(BDS, datos_coneccion)
 
     #5) Buscar cliente
     elif opcion == 5:
         result = functions.search_client(BDS, datos_coneccion)
-        if result == False:
+        if not(result):
             print("No existe un cliente con esos datos")
         else:
             #print(len(result),result)
             print("Lista de coincidencias")
             for values in result:
-                if len(values)>=2:
+                if len(values) >= 2:
                     for i in values:
                         print(f"Datos del cliente: {i}")
                 else:
                     print(f"Datos del cliente: {values}")
 
-
-    #6) Listar clientes
+    # 6) Listar clientes
     elif opcion == 6:
         result = functions.list_clients(BDS, datos_coneccion)
-        if result == False:
+        if not(result):
             print("No existe un cliente con esos datos")
         else:
             #print(len(result),result)
@@ -173,8 +167,12 @@ while(tmp_status_menu == True):
     elif opcion == 8:
         status = functions.create_table(BD, datos_coneccion)
 
+<<<<<<< HEAD
 
     #9) Mostrar Tablas
+=======
+    #9) Salir
+>>>>>>> 30e3205993c0618823e5a6a4f16afd5051fe3e6c
     elif opcion == 9:
         status = functions.show_tables(BD, datos_coneccion)
         
