@@ -34,10 +34,6 @@ host = datosconnect["host"]
 db = datosconnect["database"]
 
 def create_table(BD, conectores):
-    #CREATE TABLE employees
-    #(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    #lastname VARCHAR(20), firstname VARCHAR(20), phone VARCHAR(20),  dateofbirth DATE)
-
     num_valores = int(input("Introduce el número de columnas en la tabla: "))
     columnas = []
     for i in range(num_valores):
@@ -47,14 +43,17 @@ def create_table(BD, conectores):
 
     print(values)
     for key, value in values.items():
-            option = int(input(f"¿Qué datos recibira la columna {key}?\n1) Texto\n2) Números\n3) Fechas\n4) Booleanos\n> "))
+            option = int(input(f"¿Qué datos recibira la columna *{key}*?\n1) Texto\n2) Números\n3) Fechas\n4) Booleanos\n> "))
 
             if option == 1:
-                tmp = int(input("¿El dato puede quedar en blanco?\n 1) Sí\n2) No\n> "))
+                tmp = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
                 if tmp == 1:
                     leng = str(input("Introduce el número de caracteres: ")); value.append(f"VARCHAR({leng})")
                 elif tmp == 2:
                     leng = str(input("Introduce el número de caracteres: ")); value.append(f"VARCHAR({leng}) NOT NULL")
+                else:
+                    print("El dato puede quedar en blanco por defecto...")
+                    leng = str(input("Introduce el número de caracteres: ")); value.append(f"VARCHAR({leng})")
 
             elif option == 2:
                 tmp = int(input("¿Tus números serán: 1) Enteros ó 2) Decimales\n> "))
@@ -64,13 +63,19 @@ def create_table(BD, conectores):
                         value.append("INT")
                     elif tmp2 == 2:
                         value.append("INT NOT NULL")
+                    else:
+                        print("El dato puede quedar en blanco por defecto...")
+                        value.append("INT")
                 elif tmp == 2:
                     tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
                     if tmp2 == 1:
                         value.append("FLOAT")
                     elif tmp2 == 2:
                         value.append("FLOAT NOT NULL")
-                else: print("Opción no existente\nSe asignara por defecto <<FLOAT>>"); value.appen("FLOAT")
+                    else:
+                        print("El dato puede quedar en blanco por defecto...")
+                        value.append("FLOAT")
+                else: print("Opción no existente\nSe asignara por defecto <<FLOAT>>"); value.append("FLOAT")
 
             elif option == 3:
                 tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
@@ -78,17 +83,46 @@ def create_table(BD, conectores):
                     value.append("DATE")
                 elif tmp2 == 2:
                     value.append("DATE NOT NULL")
-                    
+                else:
+                    print("El dato se puede quedar en blanco por defecto...")
+                    value.append("DATE")
+
             elif option == 4:
                 tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
                 if tmp2 == 1:
                     value.append("BOOLEAN")
                 elif tmp2 == 2:
                     value.append("BOOLEAN NOT NULL")
+                else:
+                    print("El dato se puede quedar en blanco por defecto...")
+                    value.append("BOOLEAN")
 
-    #conector = int(input("la tabla se conectara a: 1) Clientes ó 2) Direcciones"))
+    opt = int(input("la tabla se conectara a: 1) Clientes ó 2) Direcciones\n> "))
+    user = conectores[0]; password = conectores[1]; host = conectores[2]
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
+    except:
+        print("A fallado la conexión\nCreación de la tabla interrumpida...")
+        return(False)
 
-    print(values)
+    #CREATE TABLE employees
+    #(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    #lastname VARCHAR(20), firstname VARCHAR(20), phone VARCHAR(20),  dateofbirth DATE)
+
+    if opt == 1:
+        #Clientes
+        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC))"
+    elif opt == 2:
+        #Direcciones
+        tmp_d = "Id INT(11) NOT NULL, FOREIGN KEY (Id) REFERENCES Direcciones(Id))"
+    else:
+        print("Opción no existe, se conectara automaticamente a *Clientes...")
+        tmp_c = "RFC VARCHAR(13) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL, FOREIGN KEY (RFC) REFERENCES Clientes(RFC))"
+
+    # Formar la sentencia sql
+
+
+    print(values, len(values))
     return(None)
 
 
