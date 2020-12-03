@@ -33,6 +33,66 @@ password = datosconnect["password"]
 host = datosconnect["host"]
 db = datosconnect["database"]
 
+def create_table(BD, conectores):
+    #CREATE TABLE employees
+    #(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    #lastname VARCHAR(20), firstname VARCHAR(20), phone VARCHAR(20),  dateofbirth DATE)
+
+    num_valores = int(input("Introduce el número de columnas en la tabla: "))
+    columnas = []
+    for i in range(num_valores):
+        name_columna = str(input(f"Nombre de la columna {i+1}: "))
+        columnas.append(name_columna)
+    values = {columnas[i]: [] for i in range(len(columnas))}
+
+    print(values)
+    for key, value in values.items():
+            option = int(input(f"¿Qué datos recibira la columna {key}?\n1) Texto\n2) Números\n3) Fechas\n4) Booleanos\n> "))
+
+            if option == 1:
+                tmp = int(input("¿El dato puede quedar en blanco?\n 1) Sí\n2) No\n> "))
+                if tmp == 1:
+                    leng = str(input("Introduce el número de caracteres: ")); value.append(f"VARCHAR({leng})")
+                elif tmp == 2:
+                    leng = str(input("Introduce el número de caracteres: ")); value.append(f"VARCHAR({leng}) NOT NULL")
+
+            elif option == 2:
+                tmp = int(input("¿Tus números serán: 1) Enteros ó 2) Decimales\n> "))
+                if tmp == 1:
+                    tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
+                    if tmp2 == 1:
+                        value.append("INT")
+                    elif tmp2 == 2:
+                        value.append("INT NOT NULL")
+                elif tmp == 2:
+                    tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
+                    if tmp2 == 1:
+                        value.append("FLOAT")
+                    elif tmp2 == 2:
+                        value.append("FLOAT NOT NULL")
+                else: print("Opción no existente\nSe asignara por defecto <<FLOAT>>"); value.appen("FLOAT")
+
+            elif option == 3:
+                tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
+                if tmp2 == 1:
+                    value.append("DATE")
+                elif tmp2 == 2:
+                    value.append("DATE NOT NULL")
+                    
+            elif option == 4:
+                tmp2 = int(input("¿El dato puede quedar en blanco?\n1) Sí\n2) No\n> "))
+                if tmp2 == 1:
+                    value.append("BOOLEAN")
+                elif tmp2 == 2:
+                    value.append("BOOLEAN NOT NULL")
+
+    #conector = int(input("la tabla se conectara a: 1) Clientes ó 2) Direcciones"))
+
+    print(values)
+    return(None)
+
+
+
 def all_dbs():
     try:
         cnx = mysql.connector.connect(user=user, password=password,
@@ -75,10 +135,10 @@ def acciones():
     print("1) Registras nuevo cliente\n2) Registrar nueva dirección")
     print("3) Actualizar cliente\n4) Actualizar dirección")
     print("5) Buscar cliente\n6) Listar clientes")
-    print("7) Cambiar ubicación\n8) Salir")
+    print("7) Cambiar ubicación\n8) Crear una tabla\n9) Salir")
     try:
         option = int(input("\nIntroduce un número: "))
-        if 1 > option or option > 8:
+        if option < 1 or option > 9:
             print("La opción no existe\n")
         else:
             return(option)

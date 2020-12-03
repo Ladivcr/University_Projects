@@ -169,8 +169,13 @@ while(tmp_status_menu == True):
         sucursal = current_ubicacion()
         sucursal = sucursal[-1]
         print(sucursal)
-    #8) Salir
+    #8) crear tabla
     elif opcion == 8:
+        status = functions.create_table(BD, datos_coneccion)
+
+
+    #9) Salir
+    elif opcion == 9:
         print("Hasta luego...")
         break
 
