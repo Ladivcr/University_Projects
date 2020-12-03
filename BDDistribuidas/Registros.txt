@@ -1,3 +1,11 @@
+################ CREDENCIALES ##############################
+INSERT INTO Sucursales (sucursal, usuario, contraseña,host, db)
+Values ("Morelia", "ladiv", "elbr0mas", "127.0.0.1", "Morelia");
+
+INSERT INTO Sucursales (sucursal, usuario, contraseña,host, db)
+Values ("Pátzcuaro", "ladiv", "elbr0mas", "127.0.0.1", "Patzcuaro");
+
+
 ################# CLIENTES ###################################
 INSERT INTO Clientes(Nombre, ApellidoP, ApellidoM, FeNacimiento, RFC)
 VALUES ("Vidale", "Cardano", "Tartaglia",  "2005-06-28", "CICV20050628");
