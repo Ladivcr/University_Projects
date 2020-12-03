@@ -154,7 +154,7 @@ def create_table(BD, conectores):
         sentence += tmp_c
 
     #print(values, len(values))
-    print(sentence)
+    #print(sentence)
     user = conectores[0]; password = conectores[1]; host = conectores[2]
     try:
         cnx = mysql.connector.connect(user=user, password=password, host=host, database=BD)
